@@ -4,7 +4,7 @@ const pg = require("./database");
 const { getInputsInitial } = require("./utils/prompt");
 const bankCharge = require("./utils/bank-charge");
 
-function main() {
+async function main() {
   console.log(" > Bem vindo ao sistema de carga de dados");
 
   const writeLog = createLogFile();
@@ -23,7 +23,7 @@ function main() {
       )}`
     );
 
-    bankCharge(state);
+    await bankCharge(state);
   } catch (error) {
     writeLog(`[Erro] ${error.message}`);
   } finally {
@@ -32,4 +32,6 @@ function main() {
   }
 }
 
-main();
+(async () => {
+  await main();
+})();

@@ -1,9 +1,0 @@
-[2023-05-11T14:32:56.578Z] Iniciando aplicação com os parametros: {
-  "page": {
-    "current": 1,
-    "end": null,
-    "limit": 10
-  }
-}
-[2023-05-11T14:32:56.579Z] Iniciando carga de dados com os parametros
-[2023-05-11T14:32:56.579Z] Buscando monstros da página 1

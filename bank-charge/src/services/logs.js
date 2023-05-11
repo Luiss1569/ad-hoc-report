@@ -25,6 +25,9 @@ const writeLog = (filepath, data = "") => {
   data = `[${date}] ${data}\n`;
 
   try {
+
+    data = data.replace(/\u001b\[\d+m/g, "");
+
     fs.appendFileSync(filepath, data);
   } catch (error) {
     console.error(error.message);
