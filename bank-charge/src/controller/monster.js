@@ -1,4 +1,6 @@
-const saveMonster = async (state, monster) => {
+const { Monster } = require("../database");
+
+const saveMonster = async (state) => {
   const { conn, writeLog } = state;
   writeLog("\tInciando Transacao no banco de dados");
   const transaction = await conn.transaction();

@@ -1,14 +1,7 @@
-const { Sequelize } = require("sequelize");
-
-const connect = () => {
-  const sequelize = new Sequelize(process.env.DATABASE_URI, {
-    dialect: "postgres",
-    timezone: "-03:00",
-  });
-
-  return sequelize;
-};
+const connect = require("./pgConnection");
+const Monster = require("./dao/monster");
 
 module.exports = {
   connect,
+  Monster,
 };

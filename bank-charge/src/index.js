@@ -26,6 +26,7 @@ async function main() {
     await bankCharge(state);
   } catch (error) {
     writeLog(`[Erro] ${error.message}`);
+    console.error(error);
   } finally {
     writeLog("Finalizando aplicação");
     state.conn.close();

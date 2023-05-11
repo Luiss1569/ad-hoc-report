@@ -1,4 +1,4 @@
-const { saveMonster } = require("../database/dao/monsters");
+const { saveMonster } = require("../controller/monster");
 const { getMonsters } = require("../services/api");
 
 const bankCharge = async (state) => {
@@ -16,7 +16,6 @@ const bankCharge = async (state) => {
       await saveMonster(state, monster);
 
       writeLog("Finalizando" + `[${_monster.slug}]\n`.green);
-      
     }
 
     config.page.current += 1;

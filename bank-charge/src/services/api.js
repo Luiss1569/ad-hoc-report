@@ -7,7 +7,6 @@ const retryWrapper = (axios, options) => {
   let counter = 0;
 
   axios.interceptors.response.use(null, (error) => {
-    /** @type {import("axios").AxiosRequestConfig} */
     const config = error.config;
     if (counter < max_time && error.response.status != 404) {
       counter++;
@@ -17,7 +16,6 @@ const retryWrapper = (axios, options) => {
 
       return Promise.resolve(axios(config));
     }
-    // ===== this is mock final one is a successful request, you could delete one in usage.
     if (counter === max_time && error.response.status === retry_status_code) {
       config.url = "/monsters";
       return Promise.resolve(axios(config));
