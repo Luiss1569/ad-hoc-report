@@ -4,7 +4,7 @@ const { getMonsters } = require("../services/api");
 const bankCharge = async (state) => {
   const { config, writeLog } = state;
 
-  writeLog(`Iniciando carga de dados com os parametros\n`);
+  writeLog(`Iniciando carga de dados\n`);
 
   do {
     const { monsters, infos } = await getMonsters(config.page, writeLog);

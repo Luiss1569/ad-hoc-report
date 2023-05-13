@@ -1,6 +1,5 @@
 require("dotenv").config();
 const createLogFile = require("./services/logs");
-const pg = require("./database");
 const { getInputsInitial } = require("./utils/prompt");
 const bankCharge = require("./utils/bank-charge");
 
@@ -12,7 +11,6 @@ async function main() {
 
   try {
     state.config = getInputsInitial();
-    state.conn = pg.connect();
     state.writeLog = writeLog;
 
     writeLog(
@@ -26,7 +24,7 @@ async function main() {
     await bankCharge(state);
   } catch (error) {
     writeLog(`[Erro] ${error.message}`);
-    console.error(error);
+    writeLog(`[Erro] ${error.stack}`);
   } finally {
     writeLog("Finalizando aplicação");
     state.conn.close();

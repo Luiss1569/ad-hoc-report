@@ -7,7 +7,7 @@ const saveMonster = async (state) => {
 
   try {
     writeLog("\tCriando models do monstro");
-
+    
     await transaction.commit();
     writeLog("\tSalvo no banco de dados".green);
   } catch (error) {
@@ -17,7 +17,6 @@ const saveMonster = async (state) => {
       `\t[Erro] : Params: ${JSON.stringify(error.parameters, 0, 2)}`.red
     );
     await transaction.rollback();
-
     throw new Error(
       `[Erro] Salvar o monstro ${monster.slug} no banco de dados`
     );
