@@ -1,0 +1,42 @@
+{
+    "monster": {
+        "name": {
+            "type": "string",
+            "label": "Name"
+        },
+        "year": {
+            "type": "number",
+            "label": "Year"
+        },
+        "rating": {
+            "type": "enum",
+            "options": [
+                "G",
+                "PG",
+                "PG-13",
+                "R"
+            ],
+            "label": "Rating"
+        }
+    },
+    "actions": {
+        "name": {
+            "type": "string",
+            "label": "Name"
+        },
+        "year": {
+            "type": "number",
+            "label": "Year"
+        },
+        "rating": {
+            "type": "enum",
+            "options": [
+                "G",
+                "PG",
+                "PG-13",
+                "R"
+            ],
+            "label": "Rating"
+        }
+    }
+}

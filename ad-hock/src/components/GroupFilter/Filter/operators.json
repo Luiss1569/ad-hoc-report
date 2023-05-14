@@ -1,0 +1,100 @@
+{
+    "number": {
+        "bigger": {
+            "value": ">",
+            "label": "Bigger"
+        },
+        "smaller": {
+            "value": "<",
+            "label": "Smaller"
+        },
+        "equal": {
+            "value": "=",
+            "label": "Equal"
+        },
+        "biggerEqual": {
+            "value": ">=",
+            "label": "Bigger or Equal"
+        },
+        "smallerEqual": {
+            "value": "<=",
+            "label": "Smaller or Equal"
+        }
+    },
+    "string": {
+        "equal": {
+            "value": "=",
+            "label": "Equal"
+        },
+        "notEqual": {
+            "value": "!=",
+            "label": "Not Equal"
+        },
+        "contains": {
+            "value": "contains",
+            "label": "Contains"
+        },
+        "notContains": {
+            "value": "not contains",
+            "label": "Not Contains"
+        },
+        "startsWith": {
+            "value": "starts with",
+            "label": "Starts With"
+        },
+        "endsWith": {
+            "value": "ends with",
+            "label": "Ends With"
+        }
+    },
+    "date": {
+        "equal": {
+            "value": "=",
+            "label": "Equal"
+        },
+        "notEqual": {
+            "value": "!=",
+            "label": "Not Equal"
+        },
+        "bigger": {
+            "value": ">",
+            "label": "Bigger"
+        },
+        "smaller": {
+            "value": "<",
+            "label": "Smaller"
+        },
+        "biggerEqual": {
+            "value": ">=",
+            "label": "Bigger or Equal"
+        },
+        "smallerEqual": {
+            "value": "<=",
+            "label": "Smaller or Equal"
+        }
+    },
+    "boolean": {
+        "equal": {
+            "value": "=",
+            "label": "Equal"
+        },
+        "notEqual": {
+            "value": "!=",
+            "label": "Not Equal"
+        }
+    },
+    "enum": {
+        "equal": {
+            "value": "=",
+            "label": "Equal"
+        },
+        "notEqual": {
+            "value": "!=",
+            "label": "Not Equal"
+        },
+        "contains": {
+            "value": "contains",
+            "label": "Contains"
+        }
+    }
+}
