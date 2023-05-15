@@ -2,11 +2,13 @@
     "monster": {
         "name": {
             "type": "string",
-            "label": "Name"
+            "label": "Name",
+            "sort": true
         },
         "year": {
             "type": "number",
-            "label": "Year"
+            "label": "Year",
+            "sort": true
         },
         "rating": {
             "type": "enum",
@@ -16,13 +18,15 @@
                 "PG-13",
                 "R"
             ],
-            "label": "Rating"
+            "label": "Rating",
+            "sort": true
         }
     },
     "actions": {
         "name": {
             "type": "string",
-            "label": "Name"
+            "label": "Name",
+            "sort": true
         },
         "year": {
             "type": "number",

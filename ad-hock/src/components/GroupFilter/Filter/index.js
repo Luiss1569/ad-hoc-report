@@ -1,11 +1,11 @@
 "use client";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import Fields from "./fields.json";
+import Fields from "@/configs/fields.json";
 import Operators from "./operators.json";
 import Select from "../../Select";
 import {
   MenuItem,
-  Input,
+  TextField,
   FormControl,
   InputLabel,
   Menu,
@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import MuiltiSelect from "@/components/MuiltiSelect";
 
 const tables = Object.entries(Fields);
 
@@ -35,7 +36,7 @@ const Filter = ({
 }) => {
   const [field, setField] = useState(_field);
   const [operator, setOperator] = useState(_operator);
-  const [value, setValue] = useState(_value);
+  const [value, setValue] = useState(_value || []);
 
   const optionsOperator = useMemo(() => {
     if (!field) return [];
@@ -99,7 +100,7 @@ const Filter = ({
       />
 
       {field?.type === "enum" && (
-        <Select
+        <MuiltiSelect
           value={value}
           className="w-40"
           onChange={handleChangeValue}
@@ -115,16 +116,15 @@ const Filter = ({
       )}
 
       {field?.type !== "enum" && (
-        <FormControl className="w-40" variant="filled">
-          <InputLabel id="demo-simple-select-label">Value</InputLabel>
-          <Input
-            onBlurCapture={handleChangeValue}
-            defaultValue={value}
-            label="Value"
-            placeholder="Select a value"
-            disabled={!field}
-          />
-        </FormControl>
+        <TextField
+          className="w-40"
+          onBlurCapture={handleChangeValue}
+          defaultValue={value}
+          size="small"
+          label="Value"
+          placeholder="Select a value"
+          disabled={!field}
+        />
       )}
 
       <FilterMenu

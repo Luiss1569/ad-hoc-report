@@ -1,13 +1,23 @@
 "use client";
 
 import { memo, useCallback, useState } from "react";
-import { Button, FormControl, InputLabel, Menu, MenuItem } from "@mui/material";
+import { Button, Popover } from "@mui/material";
 
 import Filter from "./Filter";
 import Select from "@/components/Select";
 
 const GroupFilter = ({ filters, onChange: setFilters }) => {
-  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
 
   const searchFilter = useCallback((id, filters) => {
     const recursive = (filters) => {
@@ -181,16 +191,36 @@ const GroupFilter = ({ filters, onChange: setFilters }) => {
   );
   return (
     <div>
-      <Button size="small" onClick={() => setOpen(true)} variant="outlined">
+      <Button
+        size="small"
+        onClick={handleClick}
+        variant="outlined"
+        aria-describedby="filter-popover"
+      >
         Open Filter
       </Button>
 
-      <Menu open={open} onClose={() => setOpen(false)}>
-        <div className="p-2">
+      <Popover
+        open={open}
+        onClose={handleClose}
+        anchorEl={anchorEl}
+        id="filter-popover"
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "left",
+        }}
+      >
+        <div className="p-4">
           <label className="text-sm">Where</label>
-          {renderRecursive(filters)}
+          <div className="flex flex-col space-y-1">
+            {renderRecursive(filters)}
+          </div>
         </div>
-      </Menu>
+      </Popover>
     </div>
   );
 };
@@ -200,7 +230,6 @@ export default memo(GroupFilter);
 const LogicalOperator = ({ index, length, filter, onChange }) => {
   const handleChange = useCallback(
     (e) => {
-      console.log(filter.id, filter.field.name, e.target.value);
       onChange(filter.id, { ...filter, logic: e.target.value });
     },
     [filter, onChange]

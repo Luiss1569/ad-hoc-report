@@ -1,6 +1,7 @@
 "use client";
 
 import GroupFilter from "@/components/GroupFilter";
+import SortList from "@/components/SortList";
 import { useMemo, useState } from "react";
 
 export default function Home() {
@@ -14,6 +15,8 @@ export default function Home() {
     },
   ]);
 
+  const [sorts, setSorts] = useState([]);
+
   const query = useMemo(() => {
     let query_result = "";
 
@@ -25,7 +28,7 @@ export default function Home() {
           if (filter.length) {
             recursive(filter);
           } else {
-            if (filter.field.value && filter.operator && filter.value) {
+            if (filter.field?.value && filter.operator && filter.value) {
               query_result += `${filter.field.value} ${filter.operator} ${filter.value}`;
               if (i < filters.length - 1) {
                 query_result += ` ${filter.logic} `;
@@ -46,9 +49,7 @@ export default function Home() {
     <main className="">
       <GroupFilter filters={filters} onChange={setFilters} />
 
-      <div className="p-5">
-        <pre>{query}</pre>
-      </div>
+      <SortList sorts={sorts} onChange={setSorts} />
     </main>
   );
 }
