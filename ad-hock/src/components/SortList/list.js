@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import {
   Divider,
   List,
@@ -13,9 +13,12 @@ import DragHandleIcon from "@mui/icons-material/DragHandle";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import Select from "../Select";
-import { ReactSortable } from "react-sortablejs";
 
 const SortableList = ({ sorts, onChange }) => {
+  const dragItem = useRef();
+  const dragNode = useRef();
+  const [_, setDragging] = useState(new Date().getTime());
+
   const handleChangeOrder = useCallback(
     (item, order) => {
       onChange((_sorts) => {
@@ -43,28 +46,51 @@ const SortableList = ({ sorts, onChange }) => {
     [onChange]
   );
 
-  const handleSort = useCallback(
-    (item) => {
-      onChange(item.filter((sort) => sort));
+  const sortsSwap = useCallback((sorts, indexA, indexB) => {
+    const _sorts = [...sorts];
+    [_sorts[indexA], _sorts[indexB]] = [_sorts[indexB], _sorts[indexA]];
+    return _sorts;
+  }, []);
+
+  const handleDragStart = useCallback((e, index) => {
+    dragItem.current = index;
+    setDragging(new Date().getTime());
+  }, []);
+
+  const handleDragEnter = useCallback((e, index) => {
+    dragNode.current = index;
+    setDragging(new Date().getTime());
+  }, []);
+
+  const handleDragEnd = useCallback(
+    (e) => {
+      onChange((_sorts) => {
+        return sortsSwap(_sorts, dragItem.current, dragNode.current);
+      });
+      setDragging(new Date().getTime());
+      dragItem.current = null;
+      dragNode.current = null;
     },
-    [onChange]
+    [onChange, sortsSwap]
   );
 
   return (
     <>
-      <List className=" w-80">
-        {
-          <ReactSortable list={sorts} setList={handleSort}>
-            {sorts.map((item) => (
-              <Item
-                key={item?.id}
-                item={item}
-                onChange={handleChangeOrder}
-                onRemove={handleRemove}
-              />
-            ))}
-          </ReactSortable>
-        }
+      <List className=" w-80 transition-all duration-300 ease-in-out">
+        {sorts.map((item, index) => (
+          <Item
+            key={item?.id}
+            item={item}
+            index={index}
+            isDragging={dragItem.current === index}
+            isTarget={dragNode.current === index}
+            onChange={handleChangeOrder}
+            onRemove={handleRemove}
+            onDragStart={handleDragStart}
+            onDragEnter={handleDragEnter}
+            onDragEnd={handleDragEnd}
+          />
+        ))}
       </List>
     </>
   );
@@ -77,7 +103,17 @@ const orderOptions = [
   { value: "desc", label: "Des" },
 ];
 
-const Item = ({ item, onChange, onRemove }) => {
+const Item = ({
+  item,
+  index,
+  isDragging,
+  isTarget,
+  onChange,
+  onRemove,
+  onDragStart,
+  onDragEnter,
+  onDragEnd,
+}) => {
   const handleChange = useCallback(
     (e) => {
       onChange(item, e.target.value);
@@ -86,15 +122,38 @@ const Item = ({ item, onChange, onRemove }) => {
   );
 
   const handleRemove = useCallback(() => {
-    onRemove(item);
-  }, [onRemove, item]);
+    onRemove(index);
+  }, [onRemove, index]);
+
+  const handleDragStart = useCallback(
+    (e) => {
+      onDragStart(e, index);
+    },
+    [onDragStart, index]
+  );
+
+  const handleDragEnter = useCallback(
+    (e) => {
+      onDragEnter(e, index);
+    },
+    [onDragEnter, index]
+  );
 
   if (!item) return null;
 
   return (
-    <>
+    <div
+      draggable="true"
+      onDragStart={handleDragStart}
+      onDragEnd={onDragEnd}
+      onDragEnter={handleDragEnter}
+      onDragOver={(e) => e.preventDefault()}
+      className={`${isDragging ? "bg-gray-100" : ""} ${
+        isTarget ? "bg-gray-200" : ""
+      }`}
+    >
       <ListItem key={item.id} className="px-2 py-2">
-        <ListItemIcon>
+        <ListItemIcon className="cursor-pointer">
           <DragHandleIcon />
         </ListItemIcon>
         <ListItemText primary={item.column} className="no-underline" />
@@ -122,6 +181,6 @@ const Item = ({ item, onChange, onRemove }) => {
         </ListItemSecondaryAction>
       </ListItem>
       <Divider />
-    </>
+    </div>
   );
 };
