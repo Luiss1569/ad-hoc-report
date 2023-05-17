@@ -1,10 +1,7 @@
-"use client";
-
 import { memo, useCallback, useState } from "react";
 import { Button, Popover } from "@mui/material";
 
 import Fields from "@/configs/fields.json";
-import { CheckBox } from "@mui/icons-material";
 
 const fields = Object.entries(Fields)
   .map(([table, fields]) =>
@@ -16,7 +13,7 @@ const fields = Object.entries(Fields)
   .flat()
   .filter((field) => field?.sort);
 
-const SortableList = ({ sorts, onChange }) => {
+const AddSortsComponent = ({ sorts, onChange }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const sortsOptions = fields.filter(
@@ -92,4 +89,4 @@ const SortableList = ({ sorts, onChange }) => {
   );
 };
 
-export default memo(SortableList);
+export default memo(AddSortsComponent);

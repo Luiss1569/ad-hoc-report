@@ -1,6 +1,4 @@
-"use client";
-
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import {
   Divider,
   List,
@@ -12,9 +10,9 @@ import {
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import Select from "../Select";
+import Select from "../../../../Atoms/Select";
 
-const SortableList = ({ sorts, onChange }) => {
+const ListSortComponent = ({ sorts, onChange }) => {
   const dragItem = useRef();
   const dragNode = useRef();
   const [_, setDragging] = useState(new Date().getTime());
@@ -105,7 +103,7 @@ const SortableList = ({ sorts, onChange }) => {
   );
 };
 
-export default memo(SortableList);
+export default memo(ListSortComponent);
 
 const orderOptions = [
   { value: "asc", label: "Asc" },

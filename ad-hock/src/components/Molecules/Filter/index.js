@@ -1,10 +1,8 @@
-"use client";
-
 import { memo, useCallback, useState } from "react";
 import { Button, Popover } from "@mui/material";
 
-import Filter from "./Filter";
-import Select from "@/components/Select";
+import Filter from "./Fields";
+import Select from "@/components/Atoms/Select";
 
 const GroupFilter = ({ filters, onChange: setFilters }) => {
   const [anchorEl, setAnchorEl] = useState(null);

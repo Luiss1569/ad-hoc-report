@@ -1,9 +1,7 @@
-"use client";
-
-import { memo, useCallback, useState } from "react";
+import { memo, useState } from "react";
 import { Button, Popover } from "@mui/material";
-import List from "./list";
-import AddSort from "./addSort";
+import AddSort from "./components/addSort"; 
+import List from "./components/List";
 
 const SortableList = ({ sorts, onChange }) => {
   const [anchorEl, setAnchorEl] = useState(null);

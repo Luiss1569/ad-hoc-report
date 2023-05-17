@@ -1,7 +1,7 @@
 "use client";
 
-import GroupFilter from "@/components/GroupFilter";
-import SortList from "@/components/SortList";
+import GroupFilter from "@/components/Molecules/Filter";
+import SortList from "@/components/Molecules/Sort";
 import { useMemo, useState } from "react";
 
 export default function Home() {

@@ -1,19 +1,16 @@
-"use client";
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import Fields from "@/configs/fields.json";
 import Operators from "./operators.json";
-import Select from "../../Select";
+import Select from "@/components/Atoms/Select";
 import {
   MenuItem,
   TextField,
-  FormControl,
-  InputLabel,
   Menu,
   Fab,
 } from "@mui/material";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import MuiltiSelect from "@/components/MuiltiSelect";
+import MuiltiSelect from "@/components/Atoms/MuiltiSelect";
 
 const tables = Object.entries(Fields);
 

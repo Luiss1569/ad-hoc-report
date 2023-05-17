@@ -84,17 +84,13 @@
         }
     },
     "enum": {
-        "equal": {
-            "value": "=",
-            "label": "Equal"
-        },
-        "notEqual": {
-            "value": "!=",
-            "label": "Not Equal"
-        },
         "contains": {
             "value": "contains",
             "label": "Contains"
+        },
+        "notContains": {
+            "value": "not contains",
+            "label": "Not Contains"
         }
     }
 }
