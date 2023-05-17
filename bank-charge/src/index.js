@@ -2,6 +2,7 @@ require("dotenv").config();
 const createLogFile = require("./services/logs");
 const { getInputsInitial } = require("./utils/prompt");
 const bankCharge = require("./utils/bank-charge");
+const { conn } = require("./database");
 
 async function main() {
   console.log(" > Bem vindo ao sistema de carga de dados");
@@ -12,6 +13,7 @@ async function main() {
   try {
     state.config = getInputsInitial();
     state.writeLog = writeLog;
+    state.conn = conn;
 
     writeLog(
       `Iniciando aplicação com os parametros: ${JSON.stringify(
