@@ -46,33 +46,43 @@ const SortableList = ({ sorts, onChange }) => {
     [onChange]
   );
 
-  const sortsSwap = useCallback((sorts, indexA, indexB) => {
+  const sortReorder = useCallback((sorts, indexA, indexB) => {
     const _sorts = [...sorts];
-    [_sorts[indexA], _sorts[indexB]] = [_sorts[indexB], _sorts[indexA]];
+    const item = _sorts.splice(indexA, 1)[0];
+    _sorts.splice(indexB, 0, item);
     return _sorts;
   }, []);
 
-  const handleDragStart = useCallback((e, index) => {
-    dragItem.current = index;
+  const handleDragStart = useCallback((e, item) => {
+    dragItem.current = item;
     setDragging(new Date().getTime());
   }, []);
 
-  const handleDragEnter = useCallback((e, index) => {
-    dragNode.current = index;
-    setDragging(new Date().getTime());
-  }, []);
+  const handleDragEnter = useCallback(
+    (e, item) => {
+      const dragging = sorts.findIndex(
+        (sort) => sort?.column === dragItem?.current?.column
+      );
+      const target = sorts.findIndex((sort) => sort?.column === item?.column);
 
-  const handleDragEnd = useCallback(
-    (e) => {
+      if (dragNode.current?.column === item?.column) return;
+      if (dragItem.current?.column === item?.column) return;
+
+      dragNode.current = target?.column;
       onChange((_sorts) => {
-        return sortsSwap(_sorts, dragItem.current, dragNode.current);
+        return sortReorder(_sorts, dragging, target);
       });
+
       setDragging(new Date().getTime());
-      dragItem.current = null;
-      dragNode.current = null;
     },
-    [onChange, sortsSwap]
+    [onChange, sortReorder, sorts]
   );
+
+  const handleDragEnd = useCallback((e) => {
+    setDragging(new Date().getTime());
+    dragItem.current = null;
+    dragNode.current = null;
+  }, []);
 
   return (
     <>
@@ -82,8 +92,7 @@ const SortableList = ({ sorts, onChange }) => {
             key={item?.id}
             item={item}
             index={index}
-            isDragging={dragItem.current === index}
-            isTarget={dragNode.current === index}
+            isDragging={dragItem?.current?.column === item?.column}
             onChange={handleChangeOrder}
             onRemove={handleRemove}
             onDragStart={handleDragStart}
@@ -107,7 +116,6 @@ const Item = ({
   item,
   index,
   isDragging,
-  isTarget,
   onChange,
   onRemove,
   onDragStart,
@@ -122,22 +130,33 @@ const Item = ({
   );
 
   const handleRemove = useCallback(() => {
-    onRemove(index);
-  }, [onRemove, index]);
+    onRemove(item);
+  }, [onRemove, item]);
 
   const handleDragStart = useCallback(
     (e) => {
-      onDragStart(e, index);
+      onDragStart(e, item);
     },
-    [onDragStart, index]
+    [onDragStart, item]
   );
 
   const handleDragEnter = useCallback(
     (e) => {
-      onDragEnter(e, index);
+      onDragEnter(e, item);
     },
-    [onDragEnter, index]
+    [onDragEnter, item]
   );
+
+  const handleDragEnd = useCallback(
+    (e) => {
+      onDragEnd(e, item);
+    },
+    [onDragEnd, item]
+  );
+
+  const handleDragOver = useCallback((e) => {
+    e.preventDefault();
+  }, []);
 
   if (!item) return null;
 
@@ -145,12 +164,10 @@ const Item = ({
     <div
       draggable="true"
       onDragStart={handleDragStart}
-      onDragEnd={onDragEnd}
+      onDragEnd={handleDragEnd}
       onDragEnter={handleDragEnter}
-      onDragOver={(e) => e.preventDefault()}
-      className={`${isDragging ? "bg-gray-100" : ""} ${
-        isTarget ? "bg-gray-200" : ""
-      }`}
+      onDragOver={handleDragOver}
+      className={`${isDragging ? "bg-gray-200" : ""}`}
     >
       <ListItem key={item.id} className="px-2 py-2">
         <ListItemIcon className="cursor-pointer">
