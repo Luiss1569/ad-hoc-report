@@ -2,8 +2,8 @@ import { memo, useCallback, useMemo, useState } from "react";
 import { Button, Divider, Popover } from "@mui/material";
 
 import Fields from "@/configs/fields.json";
-import { useSortsContext } from "@/contexts/Sorts";
-import { addSort } from "@/contexts/Sorts/actions";
+import { useColumnsContext } from "@/contexts/Columns";
+import { addColumn } from "@/contexts/Columns/actions";
 
 const fields = Object.keys(Fields);
 
@@ -57,20 +57,20 @@ const AddSortsComponent = () => {
 export default memo(AddSortsComponent);
 
 const Item = ({ item }) => {
-  const [sorts, dispatch] = useSortsContext();
+  const [columns, dispatch] = useColumnsContext();
 
   const items = useMemo(() => {
     return Object.entries(Fields[item]).filter(
-      ([key]) => !sorts.find(({ column }) => column === `${item}.${key}`)
+      ([key]) => !columns.find(({ column }) => column === `${item}.${key}`)
     );
-  }, [item, sorts]);
+  }, [item, columns]);
 
-  const handleChange = useCallback(
-    (table, column) => {
+  const handleAdd = useCallback(
+    (table, columns) => {
       dispatch(
-        addSort({
-          column: `${table}.${column}`,
-          order: "asc",
+        addColumn({
+          column: `${table}.${columns}`,
+          visible: true,
           id: Math.random().toString(36).substring(7),
         })
       );
@@ -86,7 +86,7 @@ const Item = ({ item }) => {
           <div
             key={column}
             className="flex items-center justify-start w-full h-8 px-2 cursor-pointer hover:bg-gray-200"
-            onClick={() => handleChange(item, column)}
+            onClick={() => handleAdd(item, column)}
           >
             <span>{column}</span>
             <Divider />
@@ -94,7 +94,7 @@ const Item = ({ item }) => {
         ))}
         {!items.length && (
           <div className="flex items-center justify-start w-full h-8 px-2">
-            <span>No columns</span>
+            <span>No Columns</span>
           </div>
         )}
       </div>

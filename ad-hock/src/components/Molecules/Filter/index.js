@@ -4,8 +4,12 @@ import { Button, Popover } from "@mui/material";
 import Filter from "./Fields";
 import Select from "@/components/Atoms/Select";
 
-const GroupFilter = ({ filters, onChange: setFilters }) => {
+import { useFiltersContext } from "@/contexts/Filters";
+import { changeFilter } from "@/contexts/Filters/actions";
+
+const GroupFilter = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [filters] = useFiltersContext();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -17,176 +21,30 @@ const GroupFilter = ({ filters, onChange: setFilters }) => {
 
   const open = Boolean(anchorEl);
 
-  const searchFilter = useCallback((id, filters) => {
-    const recursive = (filters) => {
-      for (const filter of filters) {
-        if (filter.id === id) return filter;
-        if (filter.length) {
-          const found = recursive(filter);
-          if (found) return found;
-        }
-      }
-    };
-
-    return recursive(filters);
-  }, []);
-
-  const handleChangeFilter = useCallback(
-    (id, filter) => {
-      setFilters((filters) => {
-        const found = searchFilter(id, filters);
-        Object.assign(found, filter);
-        return [...filters];
-      });
-    },
-    [searchFilter, setFilters]
-  );
-
-  const handleRemoveFilter = useCallback(
-    (id) => {
-      setFilters((filters) => {
-        if (filters.length === 1) return filters;
-
-        const recursive = (filters) => {
-          for (const filter of filters) {
-            if (filter.id === id) {
-              filters.splice(filters.indexOf(filter), 1);
-              return true;
-            }
-            if (filter.length) {
-              const found = recursive(filter);
-              if (found) return true;
-            }
-          }
-        };
-
-        recursive(filters);
-
-        return [...filters];
-      });
-    },
-    [setFilters]
-  );
-
-  const handleAddFilter = useCallback(
-    (id) => {
-      setFilters((filters) => {
-        const recursive = (filters) => {
-          for (let i = 0; i < filters.length; i++) {
-            const filter = filters[i];
-            if (filter.id === id) {
-              filters.splice(i + 1, 0, {
-                id: new Date().getTime(),
-                field: "",
-                operator: "",
-                value: "",
-                logic: "and",
-              });
-              return true;
-            }
-            if (filter.length) {
-              const found = recursive(filter);
-              if (found) return true;
-            }
-          }
-        };
-
-        recursive(filters);
-
-        return [...filters];
-      });
-    },
-    [setFilters]
-  );
-
-  const newFilter = useCallback(
-    (father, idx) => {
-      setFilters((filters) => {
-        const filter = {
-          id: new Date().getTime(),
-          field: "",
-          operator: "",
-          value: "",
-          logic: "and",
-        };
-
-        if (father) {
-          father.splice(idx + 1, 0, filter);
-        } else {
-          filters.push(filter);
-        }
-
-        return [...filters];
-      });
-    },
-    [setFilters]
-  );
-
-  const handleTurnGroup = useCallback(
-    (id) => {
-      setFilters((filters) => {
-        const searchFather = (filters) => {
-          for (const filter of filters) {
-            if (filter.id === id) return filters;
-            if (filter.length) {
-              const found = searchFather(filter);
-              if (found) return found;
-            }
-          }
-        };
-
-        const father = searchFather(filters);
-        const found = searchFilter(id, filters);
-
-        const index = father.indexOf(found);
-
-        father[index] = [found];
-
-        return [...filters];
-      });
-    },
-    [searchFilter, setFilters]
-  );
-
-  const renderRecursive = useCallback(
-    (filters) => {
-      return filters.map((filter, idx, arr) => {
-        if (filter.length) {
-          return (
-            <RenderRecursive
-              key={filter.id}
-              newFilter={newFilter}
-              filters={filters}
-              index={idx}
-              length={arr.length}
-              handleChangeFilter={handleChangeFilter}
-            >
-              {renderRecursive(filter)}
-            </RenderRecursive>
-          );
-        }
+  const renderRecursive = useCallback((filters) => {
+    return filters.map((filter, idx, arr) => {
+      if (filter.length) {
         return (
-          <FilterField
+          <RenderRecursive
             key={filter.id}
-            filter={filter}
+            filters={filters}
             index={idx}
             length={arr.length}
-            handleChangeFilter={handleChangeFilter}
-            handleRemoveFilter={handleRemoveFilter}
-            handleAddFilter={handleAddFilter}
-            handleTurnGroup={handleTurnGroup}
-          />
+          >
+            {renderRecursive(filter)}
+          </RenderRecursive>
         );
-      });
-    },
-    [
-      handleChangeFilter,
-      handleRemoveFilter,
-      handleAddFilter,
-      handleTurnGroup,
-      newFilter,
-    ]
-  );
+      }
+      return (
+        <FilterField
+          key={filter.id}
+          filter={filter}
+          index={idx}
+          length={arr.length}
+        />
+      );
+    });
+  }, []);
   return (
     <div>
       <Button
@@ -225,12 +83,19 @@ const GroupFilter = ({ filters, onChange: setFilters }) => {
 
 export default memo(GroupFilter);
 
-const LogicalOperator = ({ index, length, filter, onChange }) => {
+const LogicalOperator = ({ index, length, filter }) => {
+  const [, dispatch] = useFiltersContext();
+
   const handleChange = useCallback(
     (e) => {
-      onChange(filter.id, { ...filter, logic: e.target.value });
+      dispatch(
+        changeFilter(filter.id, {
+          ...filter,
+          logic: e.target.value,
+        })
+      );
     },
-    [filter, onChange]
+    [filter, dispatch]
   );
 
   if (index === length - 1) return null;
@@ -250,45 +115,27 @@ const LogicalOperator = ({ index, length, filter, onChange }) => {
   );
 };
 
-const FilterField = ({
-  filter,
-  index,
-  length,
-  handleChangeFilter,
-  handleRemoveFilter,
-  handleAddFilter,
-  handleTurnGroup,
-}) => {
+const FilterField = ({ filter, index, length }) => {
   return (
     <>
       <div>
-        <Filter
-          key={filter.id}
-          filter={filter}
-          onChange={handleChangeFilter}
-          onRemove={handleRemoveFilter}
-          onAdd={handleAddFilter}
-          onTurnGroup={handleTurnGroup}
-        />
+        <Filter key={filter.id} filter={filter} />
       </div>
-      <LogicalOperator
-        index={index}
-        length={length}
-        filter={filter}
-        onChange={handleChangeFilter}
-      />
+      <LogicalOperator index={index} length={length} filter={filter} />
     </>
   );
 };
 
-const RenderRecursive = ({
-  children,
-  filters,
-  newFilter,
-  index,
-  length,
-  handleChangeFilter,
-}) => {
+const RenderRecursive = ({ children, filters, index, length }) => {
+  const [, dispatch] = useFiltersContext();
+
+  const handleNewFilter = useCallback(
+    (father, index) => {
+      dispatch(changeFilter(father.id, index));
+    },
+    [dispatch]
+  );
+
   return (
     <>
       <div className="p-3">
@@ -303,11 +150,10 @@ const RenderRecursive = ({
           index={index}
           length={length}
           filter={filters[length - 1]}
-          onChange={handleChangeFilter}
         />
         <Button
           size="small"
-          onClick={() => newFilter(filters, index)}
+          onClick={() => handleNewFilter(filters, index)}
           className="mt-1"
         >
           Add

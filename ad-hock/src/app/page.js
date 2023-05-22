@@ -2,20 +2,16 @@
 
 import GroupFilter from "@/components/Molecules/Filter";
 import SortList from "@/components/Molecules/Sort";
+import ColumnList from "@/components/Molecules/Column";
 import { useMemo, useState } from "react";
+import { useFiltersContext } from "@/contexts/Filters";
 
 export default function Home() {
-  const [filters, setFilters] = useState([
-    {
-      id: 1,
-      field: "",
-      operator: "",
-      value: "",
-      logic: "and",
-    },
-  ]);
-
   const [sorts, setSorts] = useState([]);
+
+  const [filters] = useFiltersContext();
+
+  const [columns, setColumns] = useState([]);
 
   const query = useMemo(() => {
     let query_result = "";
@@ -47,9 +43,11 @@ export default function Home() {
 
   return (
     <main className="">
-      <GroupFilter filters={filters} onChange={setFilters} />
+      <GroupFilter />
 
-      <SortList sorts={sorts} onChange={setSorts} />
+      <SortList />
+
+      <ColumnList />
     </main>
   );
 }
