@@ -1,7 +1,7 @@
 require("dotenv").config();
 const createLogFile = require("./services/logs");
 const { getInputsInitial } = require("./utils/prompt");
-const bankCharge = require("./utils/bank-charge");
+const bankCharge = require("./services/bank-charge");
 const { conn } = require("./database");
 
 async function main() {

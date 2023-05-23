@@ -1,13 +1,18 @@
 const add = async (state, monster, transaction) => {
   const { conn } = state;
-  
-  const created = await conn.models.monsters.create(
-    {
-      name: monster.name,
+
+  const created = await conn.models.monsters.findOrCreate({
+    where: {
       slug: monster.slug,
     },
-    { transaction }
-  );
+
+    defaults: {
+      name: monster.name,
+      description: monster.description,
+      slug: monster.slug,
+    },
+    transaction,
+  });
 
   return created;
 };
