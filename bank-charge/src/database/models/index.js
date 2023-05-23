@@ -1,24 +1,24 @@
-var DataTypes = require("sequelize").DataTypes;
-var _actions = require("./actions");
-var _monsters = require("./monsters");
-var _reactions = require("./reactions");
-var _skills = require("./skills");
-var _special_abilities = require("./special_abilities");
-var _special_abilities_monsters = require("./special_abilities_monsters");
-var _speed = require("./speed");
-var _spells_list = require("./spells_list");
-var _spells_list_monsters = require("./spells_list_monsters");
+const DataTypes = require("sequelize").DataTypes;
+const _actions = require("./actions");
+const _monsters = require("./monsters");
+const _reactions = require("./reactions");
+const _skills = require("./skills");
+const _special_abilities = require("./special_abilities");
+const _special_abilities_monsters = require("./special_abilities_monsters");
+const _speed = require("./speed");
+const _spells_list = require("./spells_list");
+const _spells_list_monsters = require("./spells_list_monsters");
 
 function initModels(sequelize) {
-  var actions = _actions(sequelize, DataTypes);
-  var monsters = _monsters(sequelize, DataTypes);
-  var reactions = _reactions(sequelize, DataTypes);
-  var skills = _skills(sequelize, DataTypes);
-  var special_abilities = _special_abilities(sequelize, DataTypes);
-  var special_abilities_monsters = _special_abilities_monsters(sequelize, DataTypes);
-  var speed = _speed(sequelize, DataTypes);
-  var spells_list = _spells_list(sequelize, DataTypes);
-  var spells_list_monsters = _spells_list_monsters(sequelize, DataTypes);
+  const actions = _actions(sequelize, DataTypes);
+  const monsters = _monsters(sequelize, DataTypes);
+  const reactions = _reactions(sequelize, DataTypes);
+  const skills = _skills(sequelize, DataTypes);
+  const special_abilities = _special_abilities(sequelize, DataTypes);
+  const special_abilities_monsters = _special_abilities_monsters(sequelize, DataTypes);
+  const speed = _speed(sequelize, DataTypes);
+  const spells_list = _spells_list(sequelize, DataTypes);
+  const spells_list_monsters = _spells_list_monsters(sequelize, DataTypes);
 
   actions.belongsTo(monsters, { as: "monster", foreignKey: "monster_id"});
   monsters.hasMany(actions, { as: "actions", foreignKey: "monster_id"});
