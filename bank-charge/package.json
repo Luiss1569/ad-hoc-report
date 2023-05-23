@@ -14,9 +14,11 @@
     "axios": "^1.4.0",
     "colors": "^1.4.0",
     "dotenv": "^16.0.3",
-    "pg": "^8.10.0",
+    "pg": "^8.11.0",
     "pg-hstore": "^2.3.4",
     "prompt-sync": "^4.2.0",
-    "sequelize": "^6.31.1"
+    "sequelize": "^6.31.1",
+    "sequelize-auto": "^0.8.8",
+    "sequelize-cli": "^6.6.0"
   }
 }
