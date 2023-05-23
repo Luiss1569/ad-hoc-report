@@ -1,5 +1,6 @@
 import { memo, useCallback, useRef, useState } from "react";
 import {
+  Button,
   Divider,
   List,
   ListItem,
@@ -8,21 +9,16 @@ import {
   ListItemText,
 } from "@mui/material";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
-import DeleteIcon from "@mui/icons-material/Delete";
-
-import Select from "../../../../Atoms/Select";
-import { useSortsContext } from "@/contexts/Sorts";
-import {
-  changeSort,
-  chargeOrderList,
-  removeSort,
-} from "@/contexts/Sorts/actions";
+import VisibilityIcon from "@mui/icons-material/VisibilityRounded";
+import { useColumnsContext } from "@/contexts/Columns";
+import { changeOrderList, removeColumn } from "@/contexts/Columns/actions";
 
 const ListSortComponent = () => {
   const dragItem = useRef();
   const dragNode = useRef();
-  const [_, setDragging] = useState(new Date().getTime());
-  const [sorts, dispatch] = useSortsContext();
+  const [, setDragging] = useState(new Date().getTime());
+
+  const [columns, dispatch] = useColumnsContext();
 
   const handleDragStart = useCallback((e, item) => {
     dragItem.current = item;
@@ -31,20 +27,22 @@ const ListSortComponent = () => {
 
   const handleDragEnter = useCallback(
     (e, item) => {
-      const dragging = sorts.findIndex(
-        (sort) => sort?.column === dragItem?.current?.column
+      const dragging = columns.findIndex(
+        (column) => column?.column === dragItem?.current?.column
       );
-      const target = sorts.findIndex((sort) => sort?.column === item?.column);
+      const target = columns.findIndex(
+        (column) => column?.column === item?.column
+      );
 
       if (dragNode.current?.column === item?.column) return;
       if (dragItem.current?.column === item?.column) return;
 
       dragNode.current = target?.column;
-      dispatch(chargeOrderList(dragging, target));
+      dispatch(changeOrderList(dragging, target));
 
       setDragging(new Date().getTime());
     },
-    [dispatch, sorts]
+    [columns, dispatch]
   );
 
   const handleDragEnd = useCallback((e) => {
@@ -56,7 +54,7 @@ const ListSortComponent = () => {
   return (
     <>
       <List className=" w-80 transition-all duration-300 ease-in-out">
-        {sorts.map((item, index) => (
+        {columns.map((item, index) => (
           <Item
             key={item?.id}
             item={item}
@@ -74,30 +72,11 @@ const ListSortComponent = () => {
 
 export default memo(ListSortComponent);
 
-const orderOptions = [
-  { value: "asc", label: "Asc" },
-  { value: "desc", label: "Des" },
-];
-
-const Item = ({
-  item,
-  index,
-  isDragging,
-  onDragStart,
-  onDragEnter,
-  onDragEnd,
-}) => {
-  const [, dispatch] = useSortsContext();
-
-  const handleChange = useCallback(
-    (e) => {
-      dispatch(changeSort(item.id, e.target.value));
-    },
-    [dispatch, item]
-  );
+const Item = ({ item, isDragging, onDragStart, onDragEnter, onDragEnd }) => {
+  const [, dispatch] = useColumnsContext();
 
   const handleRemove = useCallback(() => {
-    dispatch(removeSort(item.id));
+    dispatch(removeColumn(item.id));
   }, [dispatch, item]);
 
   const handleDragStart = useCallback(
@@ -142,26 +121,13 @@ const Item = ({
         </ListItemIcon>
         <ListItemText primary={item.column} className="no-underline" />
         <ListItemSecondaryAction className="flex items-center gap-2">
-          <Select
-            value={item.order}
+          <Button
             size="small"
-            className="p-0"
-            notNoneOption
-            variant="outlined"
-            options={orderOptions}
-            onChange={handleChange}
-          />
-          <div
-            size="small"
+            className="text-gray-500 hover:text-gray-700"
             onClick={handleRemove}
-            variant="outlined"
-            aria-describedby="filter-popover"
           >
-            <DeleteIcon
-              sx={{ color: "red" }}
-              className="cursor-pointer font-size-8"
-            />
-          </div>
+            <VisibilityIcon sx={{ fontSize: 16 }} />
+          </Button>
         </ListItemSecondaryAction>
       </ListItem>
       <Divider />

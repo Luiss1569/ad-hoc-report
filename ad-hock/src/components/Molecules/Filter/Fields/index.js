@@ -2,15 +2,17 @@ import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import Fields from "@/configs/fields.json";
 import Operators from "./operators.json";
 import Select from "@/components/Atoms/Select";
-import {
-  MenuItem,
-  TextField,
-  Menu,
-  Fab,
-} from "@mui/material";
+import { MenuItem, TextField, Menu, Fab } from "@mui/material";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MuiltiSelect from "@/components/Atoms/MuiltiSelect";
+import { useFiltersContext } from "@/contexts/Filters";
+import {
+  addFilter,
+  changeFilter,
+  removeFilter,
+  turnGroup,
+} from "@/contexts/Filters/actions";
 
 const tables = Object.entries(Fields);
 
@@ -25,15 +27,12 @@ const optionsField = tables
 
 const Filter = ({
   filter: { id, field: _field, operator: _operator, value: _value } = {},
-  onChange,
-  onRemove,
-  onTurnGroup,
-  onTurnFilter,
-  onAdd,
 }) => {
   const [field, setField] = useState(_field);
   const [operator, setOperator] = useState(_operator);
   const [value, setValue] = useState(_value || []);
+
+  const [, dispatch] = useFiltersContext();
 
   const optionsOperator = useMemo(() => {
     if (!field) return [];
@@ -70,9 +69,9 @@ const Filter = ({
   useEffect(() => {
     if (!id) return;
     if (field !== _field || operator !== _operator || value !== _value) {
-      onChange(id, { field, operator, value });
+      dispatch(changeFilter(id, { field, operator, value }));
     }
-  }, [field, operator, value, onChange, id, _field, _operator, _value]);
+  }, [id, field, operator, value, _field, _operator, _value, dispatch]);
 
   return (
     <div className="flex items-center space-x-2 p-5">
@@ -124,21 +123,18 @@ const Filter = ({
         />
       )}
 
-      <FilterMenu
-        id={id}
-        onAdd={onAdd}
-        onRemove={onRemove}
-        onTurnGroup={onTurnGroup}
-      />
+      <FilterMenu id={id} />
     </div>
   );
 };
 
 export default memo(Filter);
 
-const FilterMenu = ({ id, onAdd, onRemove, onTurnGroup }) => {
+const FilterMenu = ({ id }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
+  const [, dispatch] = useFiltersContext();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -149,18 +145,18 @@ const FilterMenu = ({ id, onAdd, onRemove, onTurnGroup }) => {
 
   const handleRemove = useCallback(() => {
     handleClose();
-    onRemove(id);
-  }, [onRemove, id]);
+    dispatch(removeFilter(id));
+  }, [dispatch, id]);
 
   const handleAdd = useCallback(() => {
     handleClose();
-    onAdd(id);
-  }, [onAdd, id]);
+    dispatch(addFilter(id));
+  }, [dispatch, id]);
 
   const handleTurnGroup = useCallback(() => {
     handleClose();
-    onTurnGroup(id);
-  }, [onTurnGroup, id]);
+    dispatch(turnGroup(id));
+  }, [dispatch, id]);
 
   return (
     <>
