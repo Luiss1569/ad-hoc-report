@@ -15,6 +15,8 @@ async function main() {
     state.writeLog = writeLog;
     state.conn = conn;
 
+    await conn.authenticate();
+
     writeLog(
       `Iniciando aplicação com os parametros: ${JSON.stringify(
         state.config,

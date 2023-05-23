@@ -65,15 +65,15 @@ function initModels(sequelize) {
   });
 
   return {
-    Actions: actions,
-    Monsters: monsters,
-    Reactions: reactions,
-    Skills: skills,
-    SpecialAbilities: special_abilities,
-    SpecialAbilitiesMonsters: special_abilities_monsters,
-    Speed: speed,
-    SpellsList: spells_list,
-    SpellsListMonsters: spells_list_monsters,
+    actions,
+    monsters,
+    reactions,
+    skills,
+    special_abilities,
+    special_abilities_monsters,
+    speed,
+    spells_list,
+    spells_list_monsters,
   };
 }
 module.exports = initModels;
