@@ -1,11 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('spells_list', {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
     slug: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -106,6 +101,12 @@ module.exports = function(sequelize, DataTypes) {
     circles: {
       type: DataTypes.STRING,
       allowNull: true
+    },
+    id: {
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
     }
   }, {
     sequelize,

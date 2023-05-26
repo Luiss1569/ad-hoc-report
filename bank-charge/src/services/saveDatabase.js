@@ -8,9 +8,10 @@ const saveInDatabase = async (state, _monster) => {
   const transaction = await conn.transaction();
 
   try {
+    
     const monster = await Monster.add(state, _monster, transaction);
 
-    monster.save();
+    
 
     await transaction.commit();
 

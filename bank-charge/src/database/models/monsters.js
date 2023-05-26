@@ -1,11 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('monsters', {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
     name: {
       type: DataTypes.STRING(50),
       allowNull: true
@@ -78,22 +73,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    skill_id: {
-      type: DataTypes.BIGINT,
-      allowNull: true,
-      references: {
-        model: 'skills',
-        key: 'id'
-      }
-    },
-    speed_id: {
-      type: DataTypes.BIGINT,
-      allowNull: true,
-      references: {
-        model: 'speed',
-        key: 'id'
-      }
-    },
     damage_vulnerabilities: {
       type: DataTypes.TEXT,
       allowNull: true
@@ -119,7 +98,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     challenge_rating: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     legendary_desc: {
@@ -142,6 +121,28 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: true,
       unique: "monsters_slug_key"
+    },
+    id: {
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
+    skill_id: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+      references: {
+        model: 'skills',
+        key: 'id'
+      }
+    },
+    speed_id: {
+      type: DataTypes.BIGINT,
+      allowNull: true,
+      references: {
+        model: 'speed',
+        key: 'id'
+      }
     }
   }, {
     sequelize,

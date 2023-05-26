@@ -1,11 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('skills', {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
     athletics: {
       type: DataTypes.SMALLINT,
       allowNull: true
@@ -69,6 +64,12 @@ module.exports = function(sequelize, DataTypes) {
     nature: {
       type: DataTypes.SMALLINT,
       allowNull: true
+    },
+    id: {
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
     }
   }, {
     sequelize,
