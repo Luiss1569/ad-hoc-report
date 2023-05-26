@@ -8,6 +8,7 @@ const _special_abilities_monsters = require("./special_abilities_monsters");
 const _speed = require("./speed");
 const _spells_list = require("./spells_list");
 const _spells_list_monsters = require("./spells_list_monsters");
+const _legendary_actions = require("./legendary_actions");
 
 function initModels(sequelize) {
   const actions = _actions(sequelize, DataTypes);
@@ -22,6 +23,7 @@ function initModels(sequelize) {
   const speed = _speed(sequelize, DataTypes);
   const spells_list = _spells_list(sequelize, DataTypes);
   const spells_list_monsters = _spells_list_monsters(sequelize, DataTypes);
+  const legendary_actions = _legendary_actions(sequelize, DataTypes);
 
   actions.belongsTo(monsters, { as: "monster", foreignKey: "monster_id" });
   monsters.hasMany(actions, { as: "actions", foreignKey: "monster_id" });
@@ -31,6 +33,14 @@ function initModels(sequelize) {
   skills.hasOne(monsters, { as: "monsters", foreignKey: "skill_id" });
   monsters.belongsTo(speed, { as: "speed", foreignKey: "speed_id" });
   speed.hasOne(monsters, { as: "monsters", foreignKey: "speed_id" });
+  legendary_actions.belongsTo(monsters, {
+    as: "monster",
+    foreignKey: "monster_id",
+  });
+  monsters.hasMany(legendary_actions, {
+    as: "legendary_actions",
+    foreignKey: "monster_id",
+  });
   monsters.belongsToMany(special_abilities, {
     as: "special_abilities",
     through: special_abilities_monsters,

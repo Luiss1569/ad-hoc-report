@@ -5,6 +5,7 @@ const Actions = require("../database/dao/actions");
 const SpecialAbilities = require("../database/dao/specialAbilities");
 const SpellList = require("../database/dao/spellsList");
 const Reactions = require("../database/dao/reactions");
+const LegendaryActions = require("../database/dao/legendaryActions");
 
 const saveInDatabase = async (state, _monster) => {
   const { conn, writeLog } = state;
@@ -17,6 +18,7 @@ const saveInDatabase = async (state, _monster) => {
     const monster = await Monster.add(state, _monster, transaction);
     const skill = await Skill.add(state, _monster.skills, transaction);
     const speed = await Speed.add(state, _monster.speed, transaction);
+
     const actions = await Actions.includes(
       state,
       _monster.actions,
@@ -37,6 +39,11 @@ const saveInDatabase = async (state, _monster) => {
       _monster.reactions,
       transaction
     );
+    const legendaryActions = await LegendaryActions.includes(
+      state,
+      _monster.legendary_actions,
+      transaction
+    );
 
     await monster.setSkill(skill, { transaction });
     await monster.setSpeed(speed, { transaction });
@@ -44,6 +51,7 @@ const saveInDatabase = async (state, _monster) => {
     await monster.setSpecial_abilities(specialAbilities, { transaction });
     await monster.setSpells_lists(spellList, { transaction });
     await monster.setReactions(reactions, { transaction });
+    await monster.setLegendary_actions(legendaryActions, { transaction });
 
     monster.save({ transaction });
 

@@ -3,14 +3,12 @@ const add = async (state, monster, transaction) => {
 
   writeLog(`Salvando monster: [${monster.slug}]`);
 
-  const { legendary_actions, ...rest } = monster;
-
   const [created] = await conn.models.monsters.findOrCreate({
     where: {
       slug: monster.slug,
     },
     defaults: {
-      ...rest,
+      ...monster,
     },
     transaction,
   });

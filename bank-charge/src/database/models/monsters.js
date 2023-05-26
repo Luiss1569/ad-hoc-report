@@ -101,14 +101,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DOUBLE,
       allowNull: true
     },
-    legendary_desc: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    legendary_actions: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
     page_no: {
       type: DataTypes.INTEGER,
       allowNull: true
