@@ -55,7 +55,7 @@ const saveInDatabase = async (state, _monster) => {
 
     monster.save({ transaction });
 
-    await transaction.rollback();
+    await transaction.commit();
 
     writeLog(
       `Todos os dados do monstro ${_monster.slug} salvo com sucesso`.green
