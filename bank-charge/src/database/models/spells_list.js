@@ -15,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false
     },
     higher_level: {
-      type: DataTypes.SMALLINT,
+      type: DataTypes.STRING,
       allowNull: true
     },
     page: {

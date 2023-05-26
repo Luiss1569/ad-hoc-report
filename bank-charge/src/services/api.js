@@ -58,7 +58,24 @@ const getMonsters = async (page, writeLog) => {
   };
 };
 
+const getSpell = async (writeLog, url) => {
+  writeLog(`Buscando magia`);
+  retryWrapper(axios, {
+    retry_time: 3,
+    writeLog,
+  });
+
+  const { data } = await axios.get(url).catch((error) => {
+    throw new Error(error.message);
+  });
+
+  writeLog(`Magia encontrada: ${data.slug}\n`);
+
+  return data;
+};
+
 module.exports = {
   getMonsters,
+  getSpell,
   api,
 };

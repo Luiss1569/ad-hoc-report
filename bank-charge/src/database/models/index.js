@@ -27,41 +27,33 @@ function initModels(sequelize) {
   monsters.hasMany(actions, { as: "actions", foreignKey: "monster_id" });
   reactions.belongsTo(monsters, { as: "monster", foreignKey: "monster_id" });
   monsters.hasMany(reactions, { as: "reactions", foreignKey: "monster_id" });
-  special_abilities_monsters.belongsTo(monsters, {
-    as: "monster",
-    foreignKey: "monster_id",
-  });
-  monsters.hasMany(special_abilities_monsters, {
-    as: "special_abilities_monsters",
-    foreignKey: "monster_id",
-  });
-  spells_list_monsters.belongsTo(monsters, {
-    as: "monster",
-    foreignKey: "monster_id",
-  });
-  monsters.hasMany(spells_list_monsters, {
-    as: "spells_list_monsters",
-    foreignKey: "monster_id",
-  });
   monsters.belongsTo(skills, { as: "skill", foreignKey: "skill_id" });
-  skills.hasMany(monsters, { as: "monsters", foreignKey: "skill_id" });
-  special_abilities_monsters.belongsTo(special_abilities, {
-    as: "special_ability",
-    foreignKey: "special_abilities_id",
-  });
-  special_abilities.hasMany(special_abilities_monsters, {
-    as: "special_abilities_monsters",
-    foreignKey: "special_abilities_id",
-  });
+  skills.hasOne(monsters, { as: "monsters", foreignKey: "skill_id" });
   monsters.belongsTo(speed, { as: "speed", foreignKey: "speed_id" });
-  speed.hasMany(monsters, { as: "monsters", foreignKey: "speed_id" });
-  spells_list_monsters.belongsTo(spells_list, {
-    as: "spells_list",
-    foreignKey: "spells_list_id",
+  speed.hasOne(monsters, { as: "monsters", foreignKey: "speed_id" });
+  monsters.belongsToMany(special_abilities, {
+    as: "special_abilities",
+    through: special_abilities_monsters,
+    foreignKey: "monster_id",
+    otherKey: "special_abilities_id",
   });
-  spells_list.hasMany(spells_list_monsters, {
-    as: "spells_list_monsters",
+  special_abilities.belongsToMany(monsters, {
+    as: "monsters",
+    through: special_abilities_monsters,
+    foreignKey: "special_abilities_id",
+    otherKey: "monster_id",
+  });
+  monsters.belongsToMany(spells_list, {
+    as: "spells_lists",
+    through: spells_list_monsters,
+    foreignKey: "monster_id",
+    otherKey: "spells_list_id",
+  });
+  spells_list.belongsToMany(monsters, {
+    as: "monsters",
+    through: spells_list_monsters,
     foreignKey: "spells_list_id",
+    otherKey: "monster_id",
   });
 
   return {

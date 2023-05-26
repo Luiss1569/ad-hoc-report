@@ -1,5 +1,7 @@
 const add = async (state, monster, transaction) => {
-  const { conn } = state;
+  const { conn, writeLog } = state;
+
+  writeLog(`Salvando monster: [${monster.slug}]`);
 
   const { legendary_actions, ...rest } = monster;
 

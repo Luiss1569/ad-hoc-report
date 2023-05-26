@@ -1,5 +1,7 @@
 const add = async (state, skill, transaction) => {
-  const { conn } = state;
+  const { conn, writeLog } = state;
+
+  writeLog(`Salvando skill`);
 
   const created = await conn.models.skills.create(
     {

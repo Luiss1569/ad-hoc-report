@@ -13,7 +13,7 @@ const bankCharge = async (state) => {
     for (const _monster of monsters) {
       writeLog("Iniciando" + `[${_monster.slug}]`.yellow);
 
-      const monsterFormatted = formatterMonster(writeLog, _monster);
+      const monsterFormatted = await formatterMonster(writeLog, _monster);
       await saveInDatabase(state, monsterFormatted);
 
       writeLog("Finalizando" + `[${_monster.slug}]\n`.green);
