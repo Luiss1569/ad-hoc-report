@@ -35,6 +35,7 @@ const formatterMonster = async (writeLog, monster) => {
     "page_no",
     "img_main",
     "slug",
+    "reactions",
     "speed",
     "skills",
     "special_abilities",

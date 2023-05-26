@@ -4,6 +4,7 @@ const Speed = require("../database/dao/speed");
 const Actions = require("../database/dao/actions");
 const SpecialAbilities = require("../database/dao/specialAbilities");
 const SpellList = require("../database/dao/spellsList");
+const Reactions = require("../database/dao/reactions");
 
 const saveInDatabase = async (state, _monster) => {
   const { conn, writeLog } = state;
@@ -31,16 +32,22 @@ const saveInDatabase = async (state, _monster) => {
       _monster.spell_list,
       transaction
     );
+    const reactions = await Reactions.includes(
+      state,
+      _monster.reactions,
+      transaction
+    );
 
     await monster.setSkill(skill, { transaction });
     await monster.setSpeed(speed, { transaction });
     await monster.setActions(actions, { transaction });
     await monster.setSpecial_abilities(specialAbilities, { transaction });
     await monster.setSpells_lists(spellList, { transaction });
+    await monster.setReactions(reactions, { transaction });
 
     monster.save({ transaction });
 
-    await transaction.commit();
+    await transaction.rollback();
 
     writeLog(
       `Todos os dados do monstro ${_monster.slug} salvo com sucesso`.green

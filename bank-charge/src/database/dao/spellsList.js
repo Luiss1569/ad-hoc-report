@@ -1,9 +1,13 @@
 const includes = async (state, spells_list, transaction) => {
   const { conn, writeLog } = state;
 
+  if (spells_list === "") {
+    return [];
+  }
+
   writeLog(
     `Salvando spells_list: [${spells_list
-      .map((spell) => spell.name)
+      ?.map((spell) => spell.name)
       .join(", ")}]`
   );
 
