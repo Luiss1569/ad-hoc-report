@@ -2,10 +2,10 @@ import { memo, useCallback, useState } from "react";
 import { Button, Popover } from "@mui/material";
 
 import Filter from "./Fields";
-import Select from "@/components/Atoms/Select";
+import Select from "../../../components/Atoms/Select";
 
-import { useFiltersContext } from "@/contexts/Filters";
-import { changeFilter } from "@/contexts/Filters/actions";
+import { useFiltersContext } from "../../../contexts/Filters";
+import { changeFilter } from "../../../contexts/Filters/actions";
 
 const GroupFilter = () => {
   const [anchorEl, setAnchorEl] = useState(null);

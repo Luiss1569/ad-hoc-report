@@ -1,9 +1,9 @@
 import { memo, useCallback, useMemo, useState } from "react";
 import { Button, Divider, Popover } from "@mui/material";
 
-import Fields from "@/configs/fields.json";
-import { useColumnsContext } from "@/contexts/Columns";
-import { addColumn } from "@/contexts/Columns/actions";
+import Fields from "../../../../../configs/fields.json";
+import { useColumnsContext } from "../../../../../contexts/Columns";
+import { addColumn } from "../../../../../contexts/Columns/actions";
 
 const fields = Object.keys(Fields);
 

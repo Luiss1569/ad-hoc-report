@@ -1,9 +1,9 @@
 import "./globals.css";
 import { Poppins } from "next/font/google";
 
-import FilterProvider from "@/contexts/Filters";
-import SortProvider from "@/contexts/Sorts";
-import ColumnProvider from "@/contexts/Columns";
+import FilterProvider from "../contexts/Filters";
+import SortProvider from "../contexts/Sorts";
+import ColumnProvider from "../contexts/Columns";
 
 const poppins = Poppins({
   subsets: ["latin"],

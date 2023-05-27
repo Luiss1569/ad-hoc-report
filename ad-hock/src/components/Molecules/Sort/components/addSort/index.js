@@ -1,9 +1,9 @@
 import { memo, useCallback, useMemo, useState } from "react";
 import { Button, Divider, Popover } from "@mui/material";
 
-import Fields from "@/configs/fields.json";
-import { useSortsContext } from "@/contexts/Sorts";
-import { addSort } from "@/contexts/Sorts/actions";
+import Fields from "../../../../../configs/fields.json";
+import { useSortsContext } from "../../../../../contexts/Sorts";
+import { addSort } from "../../../../../contexts/Sorts/actions";
 
 const fields = Object.keys(Fields);
 

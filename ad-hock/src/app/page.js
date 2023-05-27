@@ -1,17 +1,13 @@
 "use client";
 
-import GroupFilter from "@/components/Molecules/Filter";
-import SortList from "@/components/Molecules/Sort";
-import ColumnList from "@/components/Molecules/Column";
-import { useMemo, useState } from "react";
-import { useFiltersContext } from "@/contexts/Filters";
+import { useMemo } from "react";
+import { useFiltersContext } from "../contexts/Filters";
+import GroupFilter from "../components/Molecules/Filter";
+import SortList from "../components/Molecules/Sort";
+import ColumnList from "../components/Molecules/Column";
 
 export default function Home() {
-  const [sorts, setSorts] = useState([]);
-
   const [filters] = useFiltersContext();
-
-  const [columns, setColumns] = useState([]);
 
   const query = useMemo(() => {
     let query_result = "";

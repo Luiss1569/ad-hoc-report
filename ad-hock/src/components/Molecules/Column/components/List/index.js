@@ -10,8 +10,11 @@ import {
 } from "@mui/material";
 import DragHandleIcon from "@mui/icons-material/DragHandle";
 import VisibilityIcon from "@mui/icons-material/VisibilityRounded";
-import { useColumnsContext } from "@/contexts/Columns";
-import { changeOrderList, removeColumn } from "@/contexts/Columns/actions";
+import { useColumnsContext } from "../../../../../contexts/Columns";
+import {
+  changeOrderList,
+  removeColumn,
+} from "../../../../../contexts/Columns/actions";
 
 const ListSortComponent = () => {
   const dragItem = useRef();

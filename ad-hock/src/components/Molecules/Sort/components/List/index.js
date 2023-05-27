@@ -11,12 +11,12 @@ import DragHandleIcon from "@mui/icons-material/DragHandle";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 import Select from "../../../../Atoms/Select";
-import { useSortsContext } from "@/contexts/Sorts";
+import { useSortsContext } from "../../../../../contexts/Sorts";
 import {
   changeSort,
   chargeOrderList,
   removeSort,
-} from "@/contexts/Sorts/actions";
+} from "../../../../../contexts/Sorts/actions";
 
 const ListSortComponent = () => {
   const dragItem = useRef();

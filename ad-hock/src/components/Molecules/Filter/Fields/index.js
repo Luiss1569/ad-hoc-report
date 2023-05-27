@@ -1,18 +1,18 @@
 import { memo, useCallback, useEffect, useMemo, useState } from "react";
-import Fields from "@/configs/fields.json";
+import Fields from "../../../../configs/fields.json";
 import Operators from "./operators.json";
-import Select from "@/components/Atoms/Select";
+import Select from "../../../../components/Atoms/Select";
 import { MenuItem, TextField, Menu, Fab } from "@mui/material";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import MuiltiSelect from "@/components/Atoms/MuiltiSelect";
-import { useFiltersContext } from "@/contexts/Filters";
+import MuiltiSelect from "../../../../components/Atoms/MuiltiSelect";
+import { useFiltersContext } from "../../../../contexts/Filters";
 import {
   addFilter,
   changeFilter,
   removeFilter,
   turnGroup,
-} from "@/contexts/Filters/actions";
+} from "../../../../contexts/Filters/actions";
 
 const tables = Object.entries(Fields);
 
