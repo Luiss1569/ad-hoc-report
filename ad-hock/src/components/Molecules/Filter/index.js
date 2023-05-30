@@ -41,6 +41,7 @@ const GroupFilter = () => {
           filter={filter}
           index={idx}
           length={arr.length}
+          logic={arr[0].logic}
         />
       );
     });
@@ -83,7 +84,7 @@ const GroupFilter = () => {
 
 export default memo(GroupFilter);
 
-const LogicalOperator = ({ index, length, filter }) => {
+const LogicalOperator = ({ index, length, filter, logic }) => {
   const [, dispatch] = useFiltersContext();
 
   const handleChange = useCallback(
@@ -103,10 +104,11 @@ const LogicalOperator = ({ index, length, filter }) => {
   return (
     <Select
       className="w-20"
-      value={filter.logic}
+      value={filter.logic || logic}
       size="small"
       label="Logical"
       onChange={handleChange}
+      disabled={index}
       options={[
         { label: "And", value: "and" },
         { label: "Or", value: "or" },
@@ -115,13 +117,18 @@ const LogicalOperator = ({ index, length, filter }) => {
   );
 };
 
-const FilterField = ({ filter, index, length }) => {
+const FilterField = ({ filter, index, length, logic }) => {
   return (
     <>
       <div>
         <Filter key={filter.id} filter={filter} />
       </div>
-      <LogicalOperator index={index} length={length} filter={filter} />
+      <LogicalOperator
+        index={index}
+        length={length}
+        filter={filter}
+        logic={logic}
+      />
     </>
   );
 };
@@ -150,6 +157,7 @@ const RenderRecursive = ({ children, filters, index, length }) => {
           index={index}
           length={length}
           filter={filters[length - 1]}
+          logic={filters[0].logic}
         />
         <Button
           size="small"

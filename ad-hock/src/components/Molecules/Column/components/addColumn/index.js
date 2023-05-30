@@ -61,7 +61,7 @@ const Item = ({ item }) => {
 
   const items = useMemo(() => {
     return Object.entries(Fields[item]).filter(
-      ([key]) => !columns.find(({ column }) => column === `${item}.${key}`)
+      ([key]) => !columns.find(({ label }) => label === `${item}.${key}`)
     );
   }, [item, columns]);
 
@@ -69,9 +69,11 @@ const Item = ({ item }) => {
     (table, columns) => {
       dispatch(
         addColumn({
-          column: `${table}.${columns}`,
+          label: `${table}.${columns}`,
           visible: true,
           id: Math.random().toString(36).substring(7),
+          table,
+          field: columns,
         })
       );
     },

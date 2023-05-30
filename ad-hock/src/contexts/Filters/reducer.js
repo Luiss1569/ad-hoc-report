@@ -52,7 +52,7 @@ export default function reducer(state, action) {
               field: "",
               operator: "",
               value: "",
-              logic: "and",
+              ...(!state.length && { logic: "and" })
             });
             return true;
           }

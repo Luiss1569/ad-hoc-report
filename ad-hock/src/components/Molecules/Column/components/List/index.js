@@ -31,14 +31,14 @@ const ListSortComponent = () => {
   const handleDragEnter = useCallback(
     (e, item) => {
       const dragging = columns.findIndex(
-        (column) => column?.column === dragItem?.current?.column
+        (column) => column?.label === dragItem?.current?.label
       );
       const target = columns.findIndex(
-        (column) => column?.column === item?.column
+        (column) => column?.label === item?.label
       );
 
-      if (dragNode.current?.column === item?.column) return;
-      if (dragItem.current?.column === item?.column) return;
+      if (dragNode.current?.label === item?.label) return;
+      if (dragItem.current?.label === item?.label) return;
 
       dragNode.current = target?.column;
       dispatch(changeOrderList(dragging, target));
@@ -62,7 +62,7 @@ const ListSortComponent = () => {
             key={item?.id}
             item={item}
             index={index}
-            isDragging={dragItem?.current?.column === item?.column}
+            isDragging={dragItem?.current?.label === item?.label}
             onDragStart={handleDragStart}
             onDragEnter={handleDragEnter}
             onDragEnd={handleDragEnd}
@@ -122,7 +122,7 @@ const Item = ({ item, isDragging, onDragStart, onDragEnter, onDragEnd }) => {
         <ListItemIcon className="cursor-pointer">
           <DragHandleIcon />
         </ListItemIcon>
-        <ListItemText primary={item.column} className="no-underline" />
+        <ListItemText primary={item.label} className="no-underline" />
         <ListItemSecondaryAction className="flex items-center gap-2">
           <Button
             size="small"

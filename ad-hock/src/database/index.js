@@ -1,40 +1,39 @@
-const models = require("./models");
-
-const { Sequelize } = require("sequelize");
-const dbConfig = require("../configs/database");
-
-let sequelize = null;
+import models from "./models";
+import { Sequelize } from "sequelize";
+import dbConfig from "../configs/database";
 
 async function loadSequelize() {
-  const sequelize = new Sequelize(dbConfig.uri, {
-    pool: {
-      max: 2,
-      idle: 0,
-      acquire: 3000,
-      evict: 20000,
-    },
-    ...dbConfig.options,
-  });
+  try {
+    const conn = new Sequelize(dbConfig.uri, {
+      pool: {
+        max: 2,
+        idle: 0,
+        acquire: 3000,
+        evict: 20000,
+      },
+      ...dbConfig.options,
+      dialectModule: require("pg"),
+    });
 
-  await sequelize.authenticate();
+    await conn.authenticate();
 
-  models.initModels(sequelize);
+    models.initModels(conn);
 
-  return sequelize;
+    return conn;
+  } catch (err) {
+    console.log("Error connecting to database: ", err);
+    throw err;
+  }
 }
 
 const functions = {
   async connect() {
-    if (!sequelize) {
-      sequelize = await loadSequelize();
-    }
-
+    const sequelize = await loadSequelize();
     return sequelize;
   },
-  async disconnect() {
+  async disconnect(sequelize) {
     if (sequelize) {
       await sequelize.close();
-      sequelize = null;
     }
   },
 };

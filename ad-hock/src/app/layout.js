@@ -18,7 +18,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={poppins}>
+      <body className={poppins.className + " bg-gray-50 h-screen w-screen"}>
         <FilterProvider>
           <ColumnProvider>
             <SortProvider>{children}</SortProvider>
