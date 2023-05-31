@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 
 import ButtonRequest from "../components/Atoms/ButtonRequest";
+import ButtonExport from "../components/Atoms/ButtonExport";
 import GroupFilter from "../components/Molecules/Filter";
 import SortList from "../components/Molecules/Sort";
 import ColumnList from "../components/Molecules/Column";
@@ -14,34 +15,6 @@ export default function Home() {
     metadata: {},
     data: [],
   });
-
-  // const query = useMemo(() => {
-  //   let query_result = "";
-
-  //   const recursive = (filters) => {
-  //     if (filters.length) {
-  //       query_result += "(";
-  //       for (let i = 0; i < filters.length; i++) {
-  //         const filter = filters[i];
-  //         if (filter.length) {
-  //           recursive(filter);
-  //         } else {
-  //           if (filter.field?.value && filter.operator && filter.value) {
-  //             query_result += `${filter.field.value} ${filter.operator} ${filter.value}`;
-  //             if (i < filters.length - 1) {
-  //               query_result += ` ${filter.logic} `;
-  //             }
-  //           }
-  //         }
-  //       }
-  //       query_result += ")";
-  //     }
-  //   };
-
-  //   recursive(filters);
-
-  //   return query_result;
-  // }, [filters]);
 
   return (
     <div className="h-full w-full flex flex-col justify-start items-start">
@@ -70,6 +43,7 @@ export default function Home() {
             <h1 className="text-sm font-bold text-gray-500">
               {data.metadata?.count} data
             </h1>
+            <ButtonExport />
           </div>
         </div>
 
