@@ -6,54 +6,74 @@ export async function POST(req) {
   const page = req.nextUrl.searchParams.get("page");
   const limit = req.nextUrl.searchParams.get("limit");
   const body = await req.json();
-  const { sorts, columns, filters } = body;
+  const { filters, columns, sorts } = body;
 
   try {
     const conn = await pgConnection.connect();
 
+    if (!Object.keys(columns).length) {
+      const error = {
+        message: "Select at least one column",
+        code: 400,
+      };
+
+      throw error;
+    }
+
     const where = convertFilterToSequelize(filters?.[0]);
+    const order = sorts.map(([column, order]) => {
+      const table = column.split(".")[0];
+      const field = column.split(".")[1];
+
+      if (table === "monsters") {
+        return [field, order];
+      }
+
+      return [conn.models?.[table], field, order];
+    });
 
     const result = await conn.models.monsters.findAndCountAll({
-      attributes: ["id", "name"],
+      attributes: columns?.monsters || [],
       where,
       include: [
         {
           model: conn.models.actions,
-          attributes: ["name", "description"],
+          attributes: columns?.actions || [],
           as: "actions",
         },
         {
           model: conn.models.reactions,
-          attributes: ["name", "description"],
+          attributes: columns?.reactions || [],
           as: "reactions",
         },
         {
           model: conn.models.skills,
-          attributes: [],
+          attributes: columns?.skills || [],
           as: "skill",
         },
         {
           model: conn.models.speed,
-          attributes: [],
+          attributes: columns?.speed || [],
           as: "speed",
         },
         {
           model: conn.models.legendary_actions,
-          attributes: ["name", "description"],
+          attributes: columns?.legendary_actions || [],
           as: "legendary_actions",
         },
         {
           model: conn.models.special_abilities,
-          attributes: ["name", "description"],
+          attributes: columns?.special_abilities || [],
           as: "special_abilities",
         },
         {
           model: conn.models.spells_list,
-          attributes: ["name", "description"],
+          attributes: columns?.spells_list || [],
           as: "spells_lists",
         },
       ],
       subQuery: false,
+      order,
     });
 
     const data = {
@@ -66,11 +86,12 @@ export async function POST(req) {
     return NextResponse.json(data, { status: 200 });
   } catch (err) {
     console.log(err.message);
-    return NextResponse.error(
+    return NextResponse.json(
       {
-        error: err.message,
+        error: true,
+        message: err.message,
       },
-      { status: 500 }
+      { status: err.code || 500 }
     );
   }
 }

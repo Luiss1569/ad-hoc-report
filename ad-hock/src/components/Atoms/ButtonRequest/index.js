@@ -34,28 +34,25 @@ const ButtonRequest = ({ setData }) => {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
-  const reduceSorts = useMemo(() => {
-    return sorts.reduce((acc, curr) => {
+  const reduceSorts = (_sorts) => {
+    const orders = {
+      asc: "ASC",
+      desc: "DESC",
+    };
+
+    return _sorts.reduce((acc, curr) => {
       const { column, order } = curr;
-      const table = column.split(".")[0];
 
-      const obj = {
-        column: column.split(".")[1],
-        order,
-      };
+      const obj = [column, orders[order]];
 
-      if (Object.keys(acc).includes(table)) {
-        acc[table].push(obj);
-      } else {
-        acc[table] = [obj];
-      }
+      acc.push(obj);
 
       return acc;
-    }, {});
-  }, [sorts]);
+    }, []);
+  };
 
-  const reduceColumns = useMemo(() => {
-    return columns.reduce((acc, curr) => {
+  const reduceColumns = (_columns) => {
+    return _columns.reduce((acc, curr) => {
       const { field, table } = curr;
 
       if (Object.keys(acc).includes(table)) {
@@ -66,7 +63,7 @@ const ButtonRequest = ({ setData }) => {
 
       return acc;
     }, {});
-  }, [columns]);
+  };
 
   const request = useCallback(async () => {
     setStatus((prev) => ({ ...prev, loading: true }));
@@ -74,8 +71,8 @@ const ButtonRequest = ({ setData }) => {
     await api
       .post(`/monster`, {
         filters,
-        sorts: reduceSorts,
-        columns: reduceColumns,
+        sorts: reduceSorts(sorts),
+        columns: reduceColumns(columns),
       })
       .then((response) => {
         setData({
@@ -86,6 +83,10 @@ const ButtonRequest = ({ setData }) => {
           },
           data: response.data.data,
         });
+
+        if (response.data.error) {
+          throw new Error(response.data.message);
+        }
 
         if (!response.data.count) {
           setSnackbar((prev) => ({
@@ -112,7 +113,7 @@ const ButtonRequest = ({ setData }) => {
         setSnackbar((prev) => ({
           ...prev,
           type: "error",
-          message: error.message,
+          message: error.response?.data?.message || error.message,
           open: true,
         }));
       })
