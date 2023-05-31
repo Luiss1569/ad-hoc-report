@@ -2,6 +2,8 @@ import models from "./models";
 import { Sequelize } from "sequelize";
 import dbConfig from "../configs/database";
 
+let sequelize = null;
+
 async function loadSequelize() {
   try {
     const conn = new Sequelize(dbConfig.uri, {
@@ -28,12 +30,16 @@ async function loadSequelize() {
 
 const functions = {
   async connect() {
-    const sequelize = await loadSequelize();
+    if (!sequelize) {
+      sequelize = await loadSequelize();
+    }
+
     return sequelize;
   },
-  async disconnect(sequelize) {
+  async disconnect() {
     if (sequelize) {
       await sequelize.close();
+      sequelize = null;
     }
   },
 };

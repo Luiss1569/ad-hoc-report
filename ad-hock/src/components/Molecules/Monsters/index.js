@@ -8,11 +8,8 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/icons-material/AddBoxSharp";
 import React, { memo, useMemo } from "react";
-import { useColumnsContext } from "../../../contexts/Columns";
 
 const MonstersComponent = ({ data }) => {
-  const [columns] = useColumnsContext();
-
   const tableColumns = useMemo(() => {
     return Object.keys(data?.[0] || {}) || [];
   }, [data]);
@@ -60,26 +57,33 @@ export default memo(MonstersComponent);
 const Row = ({ item }) => {
   const fields = useMemo(() => Object.values(item), [item]);
 
-  return fields.map((el) => <Field item={el} key={el} />);
+  return fields.map((el) => (
+    <TableCell key={el}>
+      <Field item={el} />
+    </TableCell>
+  ));
 };
 
 const Field = ({ item }) => {
+  if (!item) return <div>None</div>;
+
   if (Array.isArray(item)) {
-    return (
-      <TableCell>
-        {item.map((el) => (
-          <div key={el.name}>
-            {Object.entries(el).map(([key, value]) => (
-              <li key={key}>
-                {key}:{value}
-              </li>
-            ))}
-            <Divider />
-          </div>
-        ))}
-      </TableCell>
-    );
+    return item.map((el) => (
+      <>
+        <Field item={el} />
+        <Divider />
+      </>
+    ));
   }
 
-  return <TableCell>{item}</TableCell>;
+  if (typeof item === "object") {
+    return Object.entries(item).map(([key, value]) => (
+      <div key={key} className="flex flex-row space-x-2">
+        <span className="capitalize font-bold">{key}:</span>
+        <Field item={value} />
+      </div>
+    ));
+  }
+
+  return <div>{item}</div>;
 };

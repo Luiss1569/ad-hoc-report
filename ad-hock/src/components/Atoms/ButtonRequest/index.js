@@ -1,4 +1,4 @@
-import { memo, useCallback, forwardRef, useState } from "react";
+import { memo, useCallback, forwardRef, useState, useMemo } from "react";
 import { Button, Snackbar } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import Spinner from "@mui/material/CircularProgress";
@@ -34,14 +34,48 @@ const ButtonRequest = ({ setData }) => {
     setSnackbar((prev) => ({ ...prev, open: false }));
   };
 
+  const reduceSorts = useMemo(() => {
+    return sorts.reduce((acc, curr) => {
+      const { column, order } = curr;
+      const table = column.split(".")[0];
+
+      const obj = {
+        column: column.split(".")[1],
+        order,
+      };
+
+      if (Object.keys(acc).includes(table)) {
+        acc[table].push(obj);
+      } else {
+        acc[table] = [obj];
+      }
+
+      return acc;
+    }, {});
+  }, [sorts]);
+
+  const reduceColumns = useMemo(() => {
+    return columns.reduce((acc, curr) => {
+      const { field, table } = curr;
+
+      if (Object.keys(acc).includes(table)) {
+        acc[table].push(field);
+      } else {
+        acc[table] = [field];
+      }
+
+      return acc;
+    }, {});
+  }, [columns]);
+
   const request = useCallback(async () => {
     setStatus((prev) => ({ ...prev, loading: true }));
 
     await api
       .post(`/monster`, {
         filters,
-        sorts,
-        columns,
+        sorts: reduceSorts,
+        columns: reduceColumns,
       })
       .then((response) => {
         setData({

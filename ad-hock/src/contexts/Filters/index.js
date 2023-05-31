@@ -7,11 +7,9 @@ const FilterContext = createContext("");
 
 const initialState = [
   {
-    id: 1,
-    field: "",
-    operator: "",
-    value: "",
+    groupId: 1,
     logic: "and",
+    data: [],
   },
 ];
 

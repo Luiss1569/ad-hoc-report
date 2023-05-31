@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 import pgConnection from "../../../database";
 
 export async function POST(req) {
@@ -11,21 +11,49 @@ export async function POST(req) {
   try {
     const conn = await pgConnection.connect();
 
-    const where = convertToSequelize(filters);
-    console.log(where);
+    const where = convertFilterToSequelize(filters?.[0]);
 
     const result = await conn.models.monsters.findAndCountAll({
       attributes: ["id", "name"],
       where,
-      limit: limit || 10,
-      offset: page || 0,
       include: [
         {
           model: conn.models.actions,
           attributes: ["name", "description"],
           as: "actions",
         },
+        {
+          model: conn.models.reactions,
+          attributes: ["name", "description"],
+          as: "reactions",
+        },
+        {
+          model: conn.models.skills,
+          attributes: [],
+          as: "skill",
+        },
+        {
+          model: conn.models.speed,
+          attributes: [],
+          as: "speed",
+        },
+        {
+          model: conn.models.legendary_actions,
+          attributes: ["name", "description"],
+          as: "legendary_actions",
+        },
+        {
+          model: conn.models.special_abilities,
+          attributes: ["name", "description"],
+          as: "special_abilities",
+        },
+        {
+          model: conn.models.spells_list,
+          attributes: ["name", "description"],
+          as: "spells_lists",
+        },
       ],
+      subQuery: false,
     });
 
     const data = {
@@ -44,75 +72,56 @@ export async function POST(req) {
       },
       { status: 500 }
     );
-  } finally {
-    await pgConnection.disconnect(conn);
   }
 }
-
 
 const { Op } = require("sequelize");
 
-function convertToSequelize(filters) {
-  function processFilter(filter) {
-    const { field, operator, value } = filter;
-    const sequelizeCondition = convertOperatorToSequelize(operator, field.field, value);
+function convertOperatorToSequelize(operator, field, value) {
+  field = `$${field}$`;
 
-    return sequelizeCondition;
+  switch (operator) {
+    case "contains":
+      return { [field]: { [Op.like]: `%${value}%` } };
+    case "starts with":
+      return { [field]: { [Op.like]: `${value}%` } };
+    case "ends with":
+      return { [field]: { [Op.like]: `%${value}` } };
+    case "not contains":
+      return { [field]: { [Op.notLike]: `%${value}%` } };
+    case "=":
+      return { [field]: { [Op.eq]: value } };
+    case "!=":
+      return { [field]: { [Op.ne]: value } };
+    case ">":
+      return { [field]: { [Op.gt]: value } };
+    case "<":
+      return { [field]: { [Op.lt]: value } };
+    case ">=":
+      return { [field]: { [Op.gte]: value } };
+    case "<=":
+      return { [field]: { [Op.lte]: value } };
+    default:
+      return null;
   }
+}
 
-  function convertOperatorToSequelize(operator, field, value) {
-    switch (operator) {
-      case "contains":
-        return { [field]: { [Op.like]: `%${value}%` } };
-      case "starts with":
-        return { [field]: { [Op.like]: `${value}%` } };
-      case "ends with":
-        return { [field]: { [Op.like]: `%${value}` } };
-      case "not contains":
-        return { [field]: { [Op.notLike]: `%${value}%` } };
-      case "=":
-        return { [field]: { [Op.eq]: value } };
-      case "!=":
-        return { [field]: { [Op.ne]: value } };
-      case ">":
-        return { [field]: { [Op.gt]: value } };
-      case "<":
-        return { [field]: { [Op.lt]: value } };
-      case ">=":
-        return { [field]: { [Op.gte]: value } };
-      case "<=":
-        return { [field]: { [Op.lte]: value } };
-      default:
-        return null;
-    }
-  }
+const convertFilterToSequelize = (filter) => {
+  const { logic, data } = filter;
 
-  function processGroup(group) {
-    const groupConditions = [];
-
-    group.forEach((filter) => {
-      if (Array.isArray(filter)) {
-        groupConditions.push(processGroup(filter));
-      } else {
-        groupConditions.push(processFilter(filter));
-      }
-    });
-
-    const groupLogic = group[0].logic.toLowerCase();
-    return { [Op[groupLogic]]: groupConditions };
-  }
-
-  const conditions = [];
-
-  filters.forEach((filter) => {
-    if (Array.isArray(filter)) {
-      conditions.push(processGroup(filter));
+  const subQuery = data.map((subFilter) => {
+    if (subFilter.groupId) {
+      return convertFilterToSequelize(subFilter);
     } else {
-      conditions.push(processFilter(filter));
+      const { field, operator, value } = subFilter;
+      const convertedOperator = convertOperatorToSequelize(
+        operator,
+        field.value,
+        value
+      );
+      return convertedOperator;
     }
   });
 
-  const {logic} = filters[0];
-
-  return conditions.length > 1 ? { [Op[logic]]: conditions } : conditions[0];
-}
+  return logic === "or" ? { [Op.or]: subQuery } : { [Op.and]: subQuery };
+};

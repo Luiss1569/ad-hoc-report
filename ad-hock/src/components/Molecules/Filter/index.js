@@ -5,11 +5,15 @@ import Filter from "./Fields";
 import Select from "../../../components/Atoms/Select";
 
 import { useFiltersContext } from "../../../contexts/Filters";
-import { changeFilter } from "../../../contexts/Filters/actions";
+import {
+  changeFilter,
+  changeGroupLogic,
+  newFilter,
+} from "../../../contexts/Filters/actions";
 
 const GroupFilter = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [filters] = useFiltersContext();
+  const [[filters]] = useFiltersContext();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -21,27 +25,25 @@ const GroupFilter = () => {
 
   const open = Boolean(anchorEl);
 
-  const renderRecursive = useCallback((filters) => {
-    return filters.map((filter, idx, arr) => {
-      if (filter.length) {
+  const renderRecursive = useCallback((filters, fatherGroup) => {
+    return filters.map((groups, idx) => {
+      if (groups.groupId) {
         return (
           <RenderRecursive
-            key={filter.id}
-            filters={filters}
+            key={groups.groupId}
+            fatherGroup={fatherGroup}
             index={idx}
-            length={arr.length}
           >
-            {renderRecursive(filter)}
+            {renderRecursive(groups.data, groups)}
           </RenderRecursive>
         );
       }
       return (
         <FilterField
-          key={filter.id}
-          filter={filter}
+          key={groups.id}
           index={idx}
-          length={arr.length}
-          logic={arr[0].logic}
+          filter={groups}
+          fatherGroup={fatherGroup || groups}
         />
       );
     });
@@ -74,7 +76,11 @@ const GroupFilter = () => {
         <div className="p-4">
           <label className="text-sm">Where</label>
           <div className="flex flex-col space-y-1">
-            {renderRecursive(filters)}
+            {filters.data.length ? (
+              renderRecursive(filters.data, filters)
+            ) : (
+              <AddFilter group={filters} index={0} />
+            )}
           </div>
         </div>
       </Popover>
@@ -84,31 +90,26 @@ const GroupFilter = () => {
 
 export default memo(GroupFilter);
 
-const LogicalOperator = ({ index, length, filter, logic }) => {
+const LogicalOperator = ({ group, hidden, disable }) => {
   const [, dispatch] = useFiltersContext();
 
   const handleChange = useCallback(
     (e) => {
-      dispatch(
-        changeFilter(filter.id, {
-          ...filter,
-          logic: e.target.value,
-        })
-      );
+      dispatch(changeGroupLogic(group.groupId, e.target.value));
     },
-    [filter, dispatch]
+    [group.groupId, dispatch]
   );
 
-  if (index === length - 1) return null;
+  if (hidden) return null;
 
   return (
     <Select
       className="w-20"
-      value={filter.logic || logic}
+      value={group.logic}
       size="small"
       label="Logical"
       onChange={handleChange}
-      disabled={index}
+      disabled={disable}
       options={[
         { label: "And", value: "and" },
         { label: "Or", value: "or" },
@@ -117,56 +118,54 @@ const LogicalOperator = ({ index, length, filter, logic }) => {
   );
 };
 
-const FilterField = ({ filter, index, length, logic }) => {
+const FilterField = ({ filter, index, fatherGroup }) => {
   return (
     <>
       <div>
-        <Filter key={filter.id} filter={filter} />
+        <Filter key={filter.id} filter={filter} groupId={fatherGroup.groupId} />
       </div>
       <LogicalOperator
-        index={index}
-        length={length}
-        filter={filter}
-        logic={logic}
+        id={filter.id}
+        group={fatherGroup}
+        hidden={index === fatherGroup.data?.length - 1}
+        disable={index}
       />
     </>
   );
 };
 
-const RenderRecursive = ({ children, filters, index, length }) => {
-  const [, dispatch] = useFiltersContext();
-
-  const handleNewFilter = useCallback(
-    (father, index) => {
-      dispatch(changeFilter(father.id, index));
-    },
-    [dispatch]
-  );
-
+const RenderRecursive = ({ children, fatherGroup, index }) => {
   return (
     <>
       <div className="p-3">
         <div
           key={new Date()}
-          className="flex flex-col bg-gray-100 p-1 w-min border border-blue-300 rounded-md"
+          className="flex flex-col bg-gray-100 p-1 w-min border border-blue-300 rounded-md mb-6"
         >
           <label className="text-sm">Where</label>
           {children}
         </div>
         <LogicalOperator
           index={index}
-          length={length}
-          filter={filters[length - 1]}
-          logic={filters[0].logic}
+          group={fatherGroup}
+          hidden={index === fatherGroup.data?.length - 1}
         />
-        <Button
-          size="small"
-          onClick={() => handleNewFilter(filters, index)}
-          className="mt-1"
-        >
-          Add
-        </Button>
+        <AddFilter group={fatherGroup} index={index} />
       </div>
     </>
+  );
+};
+
+const AddFilter = ({ group, index = 0 }) => {
+  const [, dispatch] = useFiltersContext();
+
+  const handleNewFilter = useCallback(() => {
+    dispatch(newFilter(group.groupId, index));
+  }, [dispatch, group.groupId, index]);
+
+  return (
+    <Button size="small" onClick={handleNewFilter} className="mt-1">
+      Add
+    </Button>
   );
 };

@@ -1,115 +1,156 @@
-const searchFilter = (id, filters) => {
-  const recursive = (filters) => {
-    for (const filter of filters) {
-      if (filter.id === id) return filter;
-      if (filter.length) {
-        const found = recursive(filter);
-        if (found) return found;
-      }
-    }
-  };
+const searchFilter = (data, groupId, id) => {
+  const groups = data.filter((group) => group.groupId);
+  const group = groups.find((group) => group.groupId === groupId);
 
-  return recursive(filters);
+  if (group) {
+    if (!id) {
+      return group;
+    }
+
+    const filter = group.data.find((filter) => filter.id === id);
+
+    if (filter) {
+      return group;
+    }
+  }
+
+  for (const subGroup of groups) {
+    const group = searchFilter(subGroup.data, groupId, id);
+
+    if (group) {
+      return group;
+    }
+  }
+};
+
+const searchFatherGroup = (data, groupId) => {
+  const groups = data.filter((group) => group.groupId);
+  const group = groups.find((group) => group.groupId === groupId);
+
+  if (group) {
+    return data;
+  }
+
+  for (const subGroup of groups) {
+    const group = searchFatherGroup(subGroup.data, groupId);
+
+    if (group) {
+      return group;
+    }
+  }
+
+  return null;
 };
 
 export default function reducer(state, action) {
   switch (action.type) {
-    case "CHANGE_FILTER": {
-      const { id, filter } = action.payload;
-      const found = searchFilter(id, state);
-      Object.assign(found, filter);
-      return [...state];
-    }
-    case "REMOVE_FILTER": {
-      const { id } = action.payload;
-      if (state.length === 1) return state;
-
-      const recursive = (state) => {
-        for (const filter of state) {
-          if (filter.id === id) {
-            state.splice(state.indexOf(filter), 1);
-            return true;
-          }
-          if (filter.length) {
-            const found = recursive(filter);
-            if (found) return true;
-          }
-        }
-      };
-
-      recursive(state);
-
-      return [...state];
-    }
     case "ADD_FILTER": {
-      const { id } = action.payload;
-      const recursive = (state) => {
-        for (let i = 0; i < state.length; i++) {
-          const filter = state[i];
-          if (filter.id === id) {
-            state.splice(i + 1, 0, {
-              id: new Date().getTime(),
-              field: "",
-              operator: "",
-              value: "",
-              ...(!state.length && { logic: "and" })
-            });
-            return true;
-          }
-          if (filter.length) {
-            const found = recursive(filter);
-            if (found) return true;
-          }
-        }
+      const { groupId, id } = action.payload;
+
+      const group = searchFilter(state, groupId, id);
+
+      const newFilter = {
+        id: new Date().getTime(),
+        value: "",
+        operator: "",
+        field: "",
       };
 
-      recursive(state);
+      if (group) {
+        const filterIdx = group.data.findIndex((filter) => filter.id === id);
+        group.data.splice(filterIdx + 1, 0, newFilter);
+      }
+      return [...state];
+    }
+    case "CHANGE_FILTER": {
+      const { groupId, id, filter } = action.payload;
 
+      const group = searchFilter(state, groupId, id);
+
+      if (group) {
+        const filterIdx = group.data.findIndex((filter) => filter.id === id);
+        group.data[filterIdx] = filter;
+      }
       return [...state];
     }
 
-    case "NEW_FILTER": {
-      const { father, idx } = action.payload;
-      const filter = {
-        id: new Date().getTime(),
-        field: "",
-        operator: "",
-        value: "",
-        logic: "and",
-      };
+    case "CHANGE_GROUP_LOGIC": {
+      const { groupId, logic } = action.payload;
 
-      if (father) {
-        father.splice(idx + 1, 0, filter);
-      } else {
-        state.push(filter);
+      const group = searchFilter(state, groupId);
+
+      if (group) {
+        group.logic = logic;
       }
+      return [...state];
+    }
 
+    case "REMOVE_FILTER": {
+      const { groupId, id } = action.payload;
+
+      const group = searchFilter(state, groupId, id);
+
+      if (group) {
+        if (group.data.length === 1) {
+          if (groupId == 1) {
+            group.data = [];
+          } else {
+            const fatherGroup = searchFatherGroup(state, groupId);
+            const filterIdx = fatherGroup.findIndex(
+              (filter) => filter.groupId === groupId
+            );
+
+            fatherGroup.splice(filterIdx, 1, ...group.data);
+          }
+        } else {
+          const filterIdx = group.data.findIndex((filter) => filter.id === id);
+          group.data.splice(filterIdx, 1);
+        }
+      }
       return [...state];
     }
 
     case "TURN_GROUP": {
-      const { id } = action.payload;
+      const { groupId, id } = action.payload;
 
-      const searchFather = (state) => {
-        for (const filter of state) {
-          if (filter.id === id) return state;
-          if (filter.length) {
-            const found = searchFather(filter);
-            if (found) return found;
-          }
+      const group = searchFilter(state, groupId, id);
+
+      if (group) {
+        const filterIdx = group.data.findIndex((filter) => filter.id === id);
+        const filter = group.data[filterIdx];
+        if (group.data.length > 1) {
+          group.data.splice(filterIdx, 1, {
+            groupId: new Date().getTime(),
+            logic: "and",
+            data: [
+              {
+                ...filter,
+              },
+            ],
+          });
         }
-      };
-
-      const father = searchFather(state);
-      const found = searchFilter(id, state);
-
-      const index = father.indexOf(found);
-
-      father[index] = [found];
-
+      }
       return [...state];
     }
-    default:
-      return state;
+
+    case "RESET_FILTER": {
+      return initialState;
+    }
+
+    case "NEW_FILTER": {
+      const { groupId } = action.payload;
+
+      const group = searchFilter(state, groupId);
+
+      if (group) {
+        group.data.push({
+          id: new Date().getTime(),
+          value: "",
+          operator: "",
+          field: "",
+        });
+      }
+      return [...state];
+    }
   }
 }

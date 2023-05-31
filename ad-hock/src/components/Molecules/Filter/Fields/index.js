@@ -27,6 +27,7 @@ const optionsField = tables
 
 const Filter = ({
   filter: { id, field: _field, operator: _operator, value: _value } = {},
+  groupId,
 }) => {
   const [field, setField] = useState(_field);
   const [operator, setOperator] = useState(_operator);
@@ -69,9 +70,19 @@ const Filter = ({
   useEffect(() => {
     if (!id) return;
     if (field !== _field || operator !== _operator || value !== _value) {
-      dispatch(changeFilter(id, { field, operator, value }));
+      dispatch(changeFilter(id, groupId, { id, field, operator, value }));
     }
-  }, [id, field, operator, value, _field, _operator, _value, dispatch]);
+  }, [
+    id,
+    field,
+    operator,
+    value,
+    _field,
+    _operator,
+    _value,
+    dispatch,
+    groupId,
+  ]);
 
   return (
     <div className="flex items-center space-x-2 p-5">
@@ -123,14 +134,14 @@ const Filter = ({
         />
       )}
 
-      <FilterMenu id={id} />
+      <FilterMenu id={id} groupId={groupId} />
     </div>
   );
 };
 
 export default memo(Filter);
 
-const FilterMenu = ({ id }) => {
+const FilterMenu = ({ id, groupId }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -145,18 +156,18 @@ const FilterMenu = ({ id }) => {
 
   const handleRemove = useCallback(() => {
     handleClose();
-    dispatch(removeFilter(id));
-  }, [dispatch, id]);
+    dispatch(removeFilter(id, groupId));
+  }, [dispatch, id, groupId]);
 
   const handleAdd = useCallback(() => {
     handleClose();
-    dispatch(addFilter(id));
-  }, [dispatch, id]);
+    dispatch(addFilter(id, groupId));
+  }, [dispatch, id, groupId]);
 
   const handleTurnGroup = useCallback(() => {
     handleClose();
-    dispatch(turnGroup(id));
-  }, [dispatch, id]);
+    dispatch(turnGroup(id, groupId));
+  }, [dispatch, id, groupId]);
 
   return (
     <>
