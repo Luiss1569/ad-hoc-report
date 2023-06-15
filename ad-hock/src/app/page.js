@@ -17,7 +17,7 @@ export default function Home() {
   });
 
   return (
-    <div className="h-full w-full flex flex-col justify-start items-start">
+    <div className="h-full w-full flex flex-col justify-start items-start p-4">
       <div className="flex flex-row items-center w-full justify-center">
         <div className="mr-2">
           <Image
@@ -30,9 +30,9 @@ export default function Home() {
         </div>
         <h1 className="text-2xl font-bold">Ad-Hock Monster</h1>
       </div>
-      <div className="bg-white p-2 rounded-md shadow-md md:w-5/6 w-full mx-auto mt-4">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-row items-center space-x-2">
+      <div className="bg-white p-2 rounded-md shadow-md m-auto w-full">
+        <div className="flex flex-row justify-between items-center lg:space-x-4 flex-wrap">
+          <div className="flex flex-row items-center space-x-2 ">
             <GroupFilter />
             <SortList />
             <ColumnList />

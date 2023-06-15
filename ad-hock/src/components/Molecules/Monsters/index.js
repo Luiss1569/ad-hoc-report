@@ -3,6 +3,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableContainer,
   TableHead,
   TableRow,
 } from "@mui/material";
@@ -27,26 +28,27 @@ const MonstersComponent = ({ data }) => {
 
   return (
     <>
-      <div className="flex flex-col justify-center items-center p-4">
-        <Table>
-          <TableHead>
-            <TableRow></TableRow>
-            <TableRow>
-              {tableColumns?.map((column) => (
-                <TableCell key={column} className="capitalize">
-                  {column}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data?.map((item) => (
-              <TableRow key={item.id}>
-                <Row item={item} />
+      <div className="flex flex-col justify-center items-center">
+        <TableContainer className="max-h-[88vh] overflow-y-auto">
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                {tableColumns?.map((column) => (
+                  <TableCell key={column} className="capitalize min-w-60">
+                    {column}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {data?.map((item) => (
+                <TableRow key={item.id}>
+                  <Row item={item} />
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
     </>
   );

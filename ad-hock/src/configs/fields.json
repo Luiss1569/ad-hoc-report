@@ -1,5 +1,15 @@
 {
     "monsters": {
+        "id":{
+            "type": "number",
+            "label": "ID",
+            "sort": true
+        },
+        "slug": {
+            "type": "string",
+            "label": "Slug",
+            "sort": true
+        },
         "name": {
             "type": "string",
             "label": "Name",
@@ -28,6 +38,11 @@
             "label": "Name",
             "sort": true
         },
+        "description":{
+            "type": "string",
+            "label": "Description",
+            "sort": true
+        },
         "year": {
             "type": "number",
             "label": "Year"
@@ -41,6 +56,87 @@
                 "R"
             ],
             "label": "Rating"
+        }
+    },
+    "legendary_actions": {
+        "name": {
+            "type": "string",
+            "label": "Name",
+            "sort": true
+        },
+        "description":{
+            "type": "string",
+            "label": "Description",
+            "sort": true
+        }
+    },
+    "special_abilities": {
+        "id":{
+            "type": "number",
+            "label": "ID",
+            "sort": true
+        },
+        "name": {
+            "type": "string",
+            "label": "Name",
+            "sort": true
+        },
+        "description":{
+            "type": "string",
+            "label": "Description",
+            "sort": true
+        }
+    },
+    "spells_list":{
+        "slug": {
+            "type": "string",
+            "label": "Slug",
+            "sort": true
+        },
+        "name": {
+            "type": "string",
+            "label": "Name",
+            "sort": true
+        },
+        "description":{
+            "type": "string",
+            "label": "Description",
+            "sort": true
+        },
+        "higher_level": {
+            "type": "string",
+            "label": "Higher Level",
+            "sort": true
+        },
+        "range": {
+            "type": "string",
+            "label": "Range",
+            "sort": true
+        },
+        "components": {
+            "type": "string",
+            "label": "Components",
+            "sort": true
+        },
+        "material": {
+            "type": "string",
+            "label": "Material",
+            "sort": true
+        },
+        "duration": {
+            "type": "string",
+            "label": "Duration",
+            "sort": true
+        },
+        "casting_time": {
+            "type": "string",
+            "label": "Casting Time",
+            "sort": true
+        },
+        "level": {
+            "type": "string",
+            "label": "Level",
+            "sort": true
         }
     }
 }
