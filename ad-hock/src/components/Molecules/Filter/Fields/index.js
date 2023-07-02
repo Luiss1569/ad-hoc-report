@@ -21,9 +21,10 @@ const optionsField = tables
     Object.keys(fields).map((field) => ({
       value: `${table}.${field}`,
       label: `${table}.${field}`,
+      filter: fields[field].filter
     }))
   )
-  .flat();
+  .flat().filter(el => !!el.filter)
 
 const Filter = ({
   filter: { id, field: _field, operator: _operator, value: _value } = {},

@@ -17,7 +17,7 @@ const add = async (state, monster, transaction) => {
 };
 
 const getFull = async (conn, where, columns, order, options = {}) => {
-  const result = await conn.models.monsters.findAndCountAll({
+  const result = await conn.models.monsters.findAll({
     attributes: columns?.monsters || [],
     where,
     include: [

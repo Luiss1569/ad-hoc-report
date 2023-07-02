@@ -30,10 +30,10 @@ export async function POST(req) {
     const result = await Monster.getFull(conn, where, columns, order);
 
     const data = {
-      count: result.count,
+      count: result?.length || 0,
       page: page || 0,
       limit: limit || 10,
-      data: result.rows,
+      data: result,
     };
 
     return NextResponse.json(data, { status: 200 });

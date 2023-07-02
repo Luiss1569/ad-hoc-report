@@ -43,8 +43,11 @@ const AddSortsComponent = () => {
           vertical: "top",
           horizontal: "left",
         }}
+        style={{
+          width: 540
+        }}
       >
-        <div className="w-40">
+        <div>
           {fields.map((sort) => (
             <Item key={sort} item={sort} />
           ))}
@@ -81,7 +84,8 @@ const Item = ({ item }) => {
   return (
     <div className="">
       <span className="text-sm font-semibold px-2 py-2">{item}</span>
-      <div className="flex flex-col max-h-40 overflow-y-auto">
+      <Divider />
+      <div className="flex flex-col">
         {items.map(([column]) => (
           <div
             key={column}
