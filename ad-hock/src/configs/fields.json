@@ -15,9 +15,159 @@
             "label": "Name",
             "sort": true
         },
+        "size": {
+            "type": "string",
+            "label": "Size",
+            "sort": true
+        },
+        "type": {
+            "type": "string",
+            "label": "Type",
+            "sort": true
+        },
+        "subtype": {
+            "type": "string",
+            "label": "SubType",
+            "sort": true
+        },
+        "group": {
+            "type": "string",
+            "label": "Group",
+            "sort": true
+        },
+        "alignment": {
+            "type": "string",
+            "label": "Alignment",
+            "sort": true
+        },
+        "armor_class": {
+            "type": "number",
+            "label": "Armor Class",
+            "sort": true
+        },
+        "armor_desc": {
+            "type": "string",
+            "label": "Armor Desc",
+            "sort": true
+        },
+        "hit_points": {
+            "type": "number",
+            "label": "Hit Points",
+            "sort": true
+        },
+        "hit_dice": {
+            "type": "string",
+            "label": "Hit Dice",
+            "sort": true
+        },
+        "strength": {
+            "type": "number",
+            "label": "Strength",
+            "sort": true
+        },
+        "dexterity": {
+            "type": "number",
+            "label": "Dexterity",
+            "sort": true
+        },
+        "constitution": {
+            "type": "number",
+            "label": "Constitution",
+            "sort": true
+        },
+        "intelligence": {
+            "type": "number",
+            "label": "Intelligence",
+            "sort": true
+        },
+        "wisdom": {
+            "type": "number",
+            "label": "Wisdom",
+            "sort": true
+        },
+        "charisma": {
+            "type": "number",
+            "label": "Charisma",
+            "sort": true
+        },
+        "strength_save": {
+            "type": "number",
+            "label": "Strength Save",
+            "sort": true
+        },
+        "dexterity_save": {
+            "type": "number",
+            "label": "Dexterity Save",
+            "sort": true
+        },
+        "constitution_save": {
+            "type": "number",
+            "label": "Constitution Save",
+            "sort": true
+        },
+        "intelligence_save": {
+            "type": "number",
+            "label": "Intelligence Save",
+            "sort": true
+        },
+        "wisdom_save": {
+            "type": "number",
+            "label": "Wisdom Save",
+            "sort": true
+        },
+        "charisma_save": {
+            "type": "number",
+            "label": "Charisma Save",
+            "sort": true
+        },
+        "perception": {
+            "type": "number",
+            "label": "Perception",
+            "sort": true
+        },
+        "damage_vulnerabilities": {
+            "type": "string",
+            "label": "Damage Vulnerabilities",
+            "sort": true
+        },
+        "damage_resistances": {
+            "type": "string",
+            "label": "Damage Resistances",
+            "sort": true
+        },
+        "damage_immunities": {
+            "type": "string",
+            "label": "Damage Immunities",
+            "sort": true
+        },
+        "condition_immunities": {
+            "type": "string",
+            "label": "Condition Immunities",
+            "sort": true
+        },
+        "senses": {
+            "type": "string",
+            "label": "Senses",
+            "sort": true
+        },
+        "languages": {
+            "type": "string",
+            "label": "Languages",
+            "sort": true
+        },
         "year": {
             "type": "number",
             "label": "Year",
+            "sort": true
+        },
+        "cr": {
+            "type": "number",
+            "label": "CR",
+            "sort": true
+        },
+        "legendary_desc": {
+            "type": "string",
+            "label": "Legendary Desc",
             "sort": true
         },
         "rating": {
@@ -43,6 +193,21 @@
             "label": "Description",
             "sort": true
         },
+        "damage_dice":{
+            "type": "string",
+            "label": "Damage Dice",
+            "sort": true
+        },
+        "damage_bonus":{
+            "type": "number",
+            "label": "Damage Bonus",
+            "sort": true
+        },
+        "attack_bonus":{
+            "type": "number",
+            "label": "Attack Bonus",
+            "sort": true
+        },
         "year": {
             "type": "number",
             "label": "Year"
@@ -59,6 +224,23 @@
         }
     },
     "legendary_actions": {
+        "name": {
+            "type": "string",
+            "label": "Name",
+            "sort": true
+        },
+        "description":{
+            "type": "string",
+            "label": "Description",
+            "sort": true
+        }
+    },
+    "reactions": {
+        "id":{
+            "type": "number",
+            "label": "ID",
+            "sort": true
+        },
         "name": {
             "type": "string",
             "label": "Name",
@@ -136,6 +318,145 @@
         "level": {
             "type": "string",
             "label": "Level",
+            "sort": true
+        },
+        "level_int": {
+            "type": "number",
+            "label": "Level Int",
+            "sort": true
+        },
+        "spell_level": {
+            "type": "number",
+            "label": "Spell Level",
+            "sort": true
+        },
+        "school": {
+            "type": "string",
+            "label": "School",
+            "sort": true
+        },
+        "archetype": {
+            "type": "string",
+            "label": "Archetype",
+            "sort": true
+        },
+        "dnd_class": {
+            "type": "string",
+            "label": "Dnd Class",
+            "sort": true
+        },
+        "circles": {
+            "type": "string",
+            "label": "Circles",
+            "sort": true
+        }
+    },
+    "speed":{
+        "walk": {
+            "type": "number",
+            "label": "Walk",
+            "sort": true
+        },
+        "burrow": {
+            "type": "number",
+            "label": "Burrow",
+            "sort": true
+        },
+        "climb": {
+            "type": "number",
+            "label": "Climb",
+            "sort": true
+        },
+        "fly": {
+            "type": "number",
+            "label": "Fly",
+            "sort": true
+        },
+        "swim": {
+            "type": "number",
+            "label": "Swim",
+            "sort": true
+        }
+    },
+    "skills":{
+        "athletics": {
+            "type": "number",
+            "label": "Athletics",
+            "sort": true
+        },
+        "perception": {
+            "type": "number",
+            "label": "Perception",
+            "sort": true
+        },
+        "stealth": {
+            "type": "number",
+            "label": "Stealth",
+            "sort": true
+        },
+        "intimidation": {
+            "type": "number",
+            "label": "Intimidation",
+            "sort": true
+        },
+        "history": {
+            "type": "number",
+            "label": "History",
+            "sort": true
+        },
+        "deception": {
+            "type": "number",
+            "label": "Deception",
+            "sort": true
+        },
+        "performance": {
+            "type": "number",
+            "label": "Performance",
+            "sort": true
+        },
+        "persuasion": {
+            "type": "number",
+            "label": "Persuasion",
+            "sort": true
+        },
+        "medicine": {
+            "type": "number",
+            "label": "Medicine",
+            "sort": true
+        },
+        "religion": {
+            "type": "number",
+            "label": "Religion",
+            "sort": true
+        },
+        "insight": {
+            "type": "number",
+            "label": "Insight",
+            "sort": true
+        },
+        "arcana": {
+            "type": "number",
+            "label": "Arcana",
+            "sort": true
+        },
+        "acrobatics": {
+            "type": "number",
+            "label": "Acrobatics",
+            "sort": true
+        },
+        "survival": {
+            "type": "number",
+            "label": "Survival",
+            "sort": true
+        },
+        "investigation": {
+            "type": "number",
+            "label": "Investigation",
+            "sort": true
+        },
+        "nature": {
+            "type": "number",
+            "label": "Nature",
             "sort": true
         }
     }
