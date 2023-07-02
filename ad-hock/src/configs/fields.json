@@ -3,172 +3,206 @@
         "id":{
             "type": "number",
             "label": "ID",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "slug": {
             "type": "string",
             "label": "Slug",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "name": {
             "type": "string",
             "label": "Name",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "size": {
             "type": "string",
             "label": "Size",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "type": {
             "type": "string",
             "label": "Type",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "subtype": {
             "type": "string",
             "label": "SubType",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
-        "group": {
+        "groupp": {
             "type": "string",
             "label": "Group",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "alignment": {
             "type": "string",
             "label": "Alignment",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "armor_class": {
             "type": "number",
             "label": "Armor Class",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "armor_desc": {
             "type": "string",
             "label": "Armor Desc",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "hit_points": {
             "type": "number",
             "label": "Hit Points",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "hit_dice": {
             "type": "string",
             "label": "Hit Dice",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "strength": {
             "type": "number",
             "label": "Strength",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "dexterity": {
             "type": "number",
             "label": "Dexterity",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "constitution": {
             "type": "number",
             "label": "Constitution",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "intelligence": {
             "type": "number",
             "label": "Intelligence",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "wisdom": {
             "type": "number",
             "label": "Wisdom",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "charisma": {
             "type": "number",
             "label": "Charisma",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "strength_save": {
             "type": "number",
             "label": "Strength Save",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "dexterity_save": {
             "type": "number",
             "label": "Dexterity Save",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "constitution_save": {
             "type": "number",
             "label": "Constitution Save",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "intelligence_save": {
             "type": "number",
             "label": "Intelligence Save",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "wisdom_save": {
             "type": "number",
             "label": "Wisdom Save",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "charisma_save": {
             "type": "number",
             "label": "Charisma Save",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "perception": {
             "type": "number",
             "label": "Perception",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "damage_vulnerabilities": {
             "type": "string",
             "label": "Damage Vulnerabilities",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "damage_resistances": {
             "type": "string",
             "label": "Damage Resistances",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "damage_immunities": {
             "type": "string",
             "label": "Damage Immunities",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "condition_immunities": {
             "type": "string",
             "label": "Condition Immunities",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "senses": {
             "type": "string",
             "label": "Senses",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "languages": {
             "type": "string",
             "label": "Languages",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "year": {
             "type": "number",
             "label": "Year",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "cr": {
             "type": "number",
             "label": "CR",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "legendary_desc": {
             "type": "string",
             "label": "Legendary Desc",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "rating": {
             "type": "enum",
@@ -179,7 +213,8 @@
                 "R"
             ],
             "label": "Rating",
-            "sort": true
+            "sort": true,
+            "filter": true
         }
     },
     "actions": {
@@ -355,109 +390,130 @@
         "walk": {
             "type": "number",
             "label": "Walk",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "burrow": {
             "type": "number",
             "label": "Burrow",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "climb": {
             "type": "number",
             "label": "Climb",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "fly": {
             "type": "number",
             "label": "Fly",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "swim": {
             "type": "number",
             "label": "Swim",
-            "sort": true
+            "sort": true,
+            "filter": true
         }
     },
     "skills":{
         "athletics": {
             "type": "number",
             "label": "Athletics",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "perception": {
             "type": "number",
             "label": "Perception",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "stealth": {
             "type": "number",
             "label": "Stealth",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "intimidation": {
             "type": "number",
             "label": "Intimidation",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "history": {
             "type": "number",
             "label": "History",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "deception": {
             "type": "number",
             "label": "Deception",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "performance": {
             "type": "number",
             "label": "Performance",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "persuasion": {
             "type": "number",
             "label": "Persuasion",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "medicine": {
             "type": "number",
             "label": "Medicine",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "religion": {
             "type": "number",
             "label": "Religion",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "insight": {
             "type": "number",
             "label": "Insight",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "arcana": {
             "type": "number",
             "label": "Arcana",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "acrobatics": {
             "type": "number",
             "label": "Acrobatics",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "survival": {
             "type": "number",
             "label": "Survival",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "investigation": {
             "type": "number",
             "label": "Investigation",
-            "sort": true
+            "sort": true,
+            "filter": true
         },
         "nature": {
             "type": "number",
             "label": "Nature",
-            "sort": true
+            "sort": true,
+            "filter": true
         }
     }
 }
