@@ -84,12 +84,12 @@
         }
     },
     "enum": {
-        "contains": {
-            "value": "contains",
+        "in": {
+            "value": "in",
             "label": "Contains"
         },
-        "notContains": {
-            "value": "not contains",
+        "notIn": {
+            "value": "notIn",
             "label": "Not Contains"
         }
     }

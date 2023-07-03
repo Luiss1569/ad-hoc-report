@@ -1,6 +1,6 @@
 {
     "monsters": {
-        "id":{
+        "id": {
             "type": "number",
             "label": "ID",
             "sort": true,
@@ -25,8 +25,56 @@
             "filter": true
         },
         "type": {
-            "type": "string",
+            "type": "enum",
             "label": "Type",
+            "options": [
+                "fiends",
+                "humanoid",
+                "dragon",
+                "Dragon",
+                "elemental",
+                "swarm of Tiny fey",
+                "Construct",
+                "swarm of Tiny constructs",
+                "Fey",
+                "Swarm of Med Beast",
+                "constructs",
+                "celestial",
+                "aberration",
+                "monstrosity",
+                "oozes",
+                "Monstrosity",
+                "Celestial",
+                "Ooze",
+                "fiend",
+                "elementals",
+                "swarm of Tiny beasts",
+                "swarm of Tiny undead",
+                "Giant",
+                "Beast",
+                "Elemental",
+                "aberrations",
+                "beasts",
+                "swarm of Tiny monstrosities",
+                "humanoids",
+                "swarm of Mediumundead",
+                "(undead)",
+                "Humanoid",
+                "monstrosities",
+                "plant",
+                "swarm of Tiny aberrations",
+                "swarm of Tiny elementals",
+                "undead",
+                "Undead",
+                "fey",
+                "Plant",
+                "beast",
+                "Aberration",
+                "ooze",
+                "construct",
+                "Fiend",
+                "giant"
+            ],
             "sort": true,
             "filter": true
         },
@@ -223,22 +271,22 @@
             "label": "Name",
             "sort": true
         },
-        "description":{
+        "description": {
             "type": "string",
             "label": "Description",
             "sort": true
         },
-        "damage_dice":{
+        "damage_dice": {
             "type": "string",
             "label": "Damage Dice",
             "sort": true
         },
-        "damage_bonus":{
+        "damage_bonus": {
             "type": "number",
             "label": "Damage Bonus",
             "sort": true
         },
-        "attack_bonus":{
+        "attack_bonus": {
             "type": "number",
             "label": "Attack Bonus",
             "sort": true
@@ -264,14 +312,14 @@
             "label": "Name",
             "sort": true
         },
-        "description":{
+        "description": {
             "type": "string",
             "label": "Description",
             "sort": true
         }
     },
     "reactions": {
-        "id":{
+        "id": {
             "type": "number",
             "label": "ID",
             "sort": true
@@ -281,14 +329,14 @@
             "label": "Name",
             "sort": true
         },
-        "description":{
+        "description": {
             "type": "string",
             "label": "Description",
             "sort": true
         }
     },
     "special_abilities": {
-        "id":{
+        "id": {
             "type": "number",
             "label": "ID",
             "sort": true
@@ -298,95 +346,95 @@
             "label": "Name",
             "sort": true
         },
-        "description":{
+        "description": {
             "type": "string",
             "label": "Description",
             "sort": true
         }
     },
-    "spells_list":{
+    "spells_list": {
         "slug": {
             "type": "string",
             "label": "Slug",
-            "sort": true
+            "sort": false
         },
         "name": {
             "type": "string",
             "label": "Name",
-            "sort": true
+            "sort": false
         },
-        "description":{
+        "description": {
             "type": "string",
             "label": "Description",
-            "sort": true
+            "sort": false
         },
         "higher_level": {
             "type": "string",
             "label": "Higher Level",
-            "sort": true
+            "sort": false
         },
         "range": {
             "type": "string",
             "label": "Range",
-            "sort": true
+            "sort": false
         },
         "components": {
             "type": "string",
             "label": "Components",
-            "sort": true
+            "sort": false
         },
         "material": {
             "type": "string",
             "label": "Material",
-            "sort": true
+            "sort": false
         },
         "duration": {
             "type": "string",
             "label": "Duration",
-            "sort": true
+            "sort": false
         },
         "casting_time": {
             "type": "string",
             "label": "Casting Time",
-            "sort": true
+            "sort": false
         },
         "level": {
             "type": "string",
             "label": "Level",
-            "sort": true
+            "sort": false
         },
         "level_int": {
             "type": "number",
             "label": "Level Int",
-            "sort": true
+            "sort": false
         },
         "spell_level": {
             "type": "number",
             "label": "Spell Level",
-            "sort": true
+            "sort": false
         },
         "school": {
             "type": "string",
             "label": "School",
-            "sort": true
+            "sort": false
         },
         "archetype": {
             "type": "string",
             "label": "Archetype",
-            "sort": true
+            "sort": false
         },
         "dnd_class": {
             "type": "string",
             "label": "Dnd Class",
-            "sort": true
+            "sort": false
         },
         "circles": {
             "type": "string",
             "label": "Circles",
-            "sort": true
+            "sort": false
         }
     },
-    "speed":{
+    "speed": {
         "walk": {
             "type": "number",
             "label": "Walk",
@@ -418,7 +466,7 @@
             "filter": true
         }
     },
-    "skills":{
+    "skills": {
         "athletics": {
             "type": "number",
             "label": "Athletics",

@@ -29,7 +29,7 @@ function initModels(sequelize) {
   monsters.hasMany(actions, { as: "actions", foreignKey: "monster_id" });
   reactions.belongsTo(monsters, { as: "monster", foreignKey: "monster_id" });
   monsters.hasMany(reactions, { as: "reactions", foreignKey: "monster_id" });
-  monsters.belongsTo(skills, { as: "skill", foreignKey: "skill_id" });
+  monsters.belongsTo(skills, { as: "skills", foreignKey: "skill_id" });
   skills.hasOne(monsters, { as: "monsters", foreignKey: "skill_id" });
   monsters.belongsTo(speed, { as: "speed", foreignKey: "speed_id" });
   speed.hasOne(monsters, { as: "monsters", foreignKey: "speed_id" });
@@ -54,7 +54,7 @@ function initModels(sequelize) {
     otherKey: "monster_id",
   });
   monsters.belongsToMany(spells_list, {
-    as: "spells_lists",
+    as: "spells_list",
     through: spells_list_monsters,
     foreignKey: "monster_id",
     otherKey: "spells_list_id",

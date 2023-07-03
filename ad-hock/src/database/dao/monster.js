@@ -34,7 +34,7 @@ const getFull = async (conn, where, columns, order, options = {}) => {
       {
         model: conn.models.skills,
         attributes: columns?.skills || [],
-        as: "skill",
+        as: "skills",
       },
       {
         model: conn.models.speed,
@@ -54,7 +54,7 @@ const getFull = async (conn, where, columns, order, options = {}) => {
       {
         model: conn.models.spells_list,
         attributes: columns?.spells_list || [],
-        as: "spells_lists",
+        as: "spells_list",
       },
     ],
     subQuery: false,

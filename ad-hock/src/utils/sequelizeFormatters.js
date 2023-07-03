@@ -24,6 +24,10 @@ export function convertOperatorToSequelize(operator, field, value) {
       return { [field]: { [Op.gte]: value } };
     case "<=":
       return { [field]: { [Op.lte]: value } };
+    case "in":
+      return { [field]: { [Op.in]: value } };
+    case "notIn":
+      return { [field]: { [Op.notIn]: value } };
     default:
       return null;
   }

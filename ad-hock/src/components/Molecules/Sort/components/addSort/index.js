@@ -44,10 +44,15 @@ const AddSortsComponent = () => {
           horizontal: "left",
         }}
         style={{
-          width: 540
+          width: 1300,
+        }}
+        PaperProps={{
+          style: {
+            width: "100%",
+          },
         }}
       >
-        <div>
+        <div className="columns-3 gap-6">
           {fields.map((sort) => (
             <Item key={sort} item={sort} />
           ))}
@@ -82,7 +87,7 @@ const Item = ({ item }) => {
   );
 
   return (
-    <div className="">
+    <div className="break-inside-avoid-column p-5">
       <span className="text-sm font-semibold px-2 py-2">{item}</span>
       <Divider />
       <div className="flex flex-col">
