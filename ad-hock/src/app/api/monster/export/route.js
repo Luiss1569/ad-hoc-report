@@ -20,10 +20,10 @@ export async function POST(req) {
       await Monster.getFull(conn, where, columns, order, {
         raw: true,
       })
-    ).rows;
+    );
 
     let file = "";
-    const _columns = Object.keys(result[0]);
+    const _columns = Object.keys(result.at(0));
 
     _columns.forEach((column) => {
       file += `${column.toString()},`;
@@ -45,7 +45,7 @@ export async function POST(req) {
       status: 200,
     });
   } catch (err) {
-    console.log(err.message);
+    console.error(err);
     return NextResponse.json(
       {
         error: true,
